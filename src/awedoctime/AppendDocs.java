@@ -56,6 +56,33 @@ public class AppendDocs implements Document {
         return new ArrayList<String>(body);
     }
     
+    /**
+     * Returns a concise String representation of the document.
+     */
+    @Override public String toString(){
+        String endLine = "\n";
+        String output = "";
+        for(String id: body){
+            output += content.get(id) + endLine;
+            output += (id.charAt(0) == 'S') ? getNestedSections(id, 1): "" ; //if a section, get the nested sections
+        }
+        
+        return output;
+    }
+    
+    private String getNestedSections(String ID, int indent){
+        String tab = "    ";
+        String endLine = "\n";
+        String output = "";
+        for(String id: structure.get(ID)){
+            for(int x = 0; x< indent; x++) output+= tab; //adds right number of tabs for indentation
+            output += content.get(id) + endLine;
+            output += (id.charAt(0) == 'S')? getNestedSections(id, indent+1): ""; //if a section, get the nested sections
+        }
+        
+        return output;
+    }
+    
     @Override
     public Document append(Document other) {
         Document newDoc = new AppendDocs(this, other);

@@ -16,8 +16,6 @@ public class SectionDoc implements Document {
      */
     public SectionDoc(String header, Document doc){
         String ID = CreateID.S();
-        System.out.println(ID);
-        System.out.println(doc.getContentMap());
         content = doc.getContentMap();
         content.put(ID, header);
         structure = doc.getStructureMap();

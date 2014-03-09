@@ -39,4 +39,14 @@ public class AwesomeDocumentTime {
     public static Document section(String heading, Document contents) {
         return new SectionDoc(heading, contents);
     }
+    
+    /**
+     * Creates a new document, appending the second document to the first document
+     * @param doc1 an empty document, paragraph, section, or another appended document
+     * @param doc2 an empty document, paragraph, section, or another appended document
+     * @return a new document
+     */
+    public static Document append(Document doc1, Document doc2) {
+        return new AppendDocs(doc1, doc2);
+    }
 }
