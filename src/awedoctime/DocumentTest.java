@@ -124,6 +124,16 @@ public class DocumentTest {
     
     
     /**
+     * Tests for the equals method
+     * (A) Empty Documents
+     * (B) Paragraph Documents
+     * (C) Section Documents
+     * (D) Appended Documents
+     */
+    
+    
+    
+    /**
      * Tests for bodyWordCount method
      * (A) Count words in Empty Document
      * (B) Count words in a Paragraph Document

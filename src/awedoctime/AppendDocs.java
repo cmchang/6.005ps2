@@ -66,7 +66,6 @@ public class AppendDocs implements Document {
             output += content.get(id) + endLine;
             output += (id.charAt(0) == 'S') ? getNestedSections(id, 1): "" ; //if a section, get the nested sections
         }
-        
         return output;
     }
     
@@ -79,7 +78,6 @@ public class AppendDocs implements Document {
             output += content.get(id) + endLine;
             output += (id.charAt(0) == 'S')? getNestedSections(id, indent+1): ""; //if a section, get the nested sections
         }
-        
         return output;
     }
     
