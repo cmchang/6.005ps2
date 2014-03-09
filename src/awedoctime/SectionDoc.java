@@ -51,7 +51,7 @@ public class SectionDoc implements Document {
         
         for(String id: body){
             output += content.get(id) + endLine;
-            output += (id.charAt(0) == 'S') ? getNestedSections(id, 1): "" ;
+            output += (id.charAt(0) == 'S') ? getNestedSections(id, 1): "" ; //if a section, get the nested sections
         }
         
         return output;
@@ -63,9 +63,9 @@ public class SectionDoc implements Document {
         String output = "";
         
         for(String id: structure.get(ID)){
-            for(int x = 0; x< indent; x++) output+= tab;
+            for(int x = 0; x< indent; x++) output+= tab; //adds right number of tabs for indentation
             output += content.get(id) + endLine;
-            output += (id.charAt(0) == 'S')? getNestedSections(id, indent++): "";
+            output += (id.charAt(0) == 'S')? getNestedSections(id, indent++): ""; //if a section, get the nested sections
         }
         
         return output;
