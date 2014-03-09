@@ -40,6 +40,7 @@ public class DocumentTest {
     @Test public void testBodyWordCountSectionParagraphs() {
         Document paragraphs = paragraph("Hello, world!").append(paragraph("Goodbye."));
         Document doc = section("Section One", paragraphs);
+        System.out.println(doc);
         assertEquals(3, doc.bodyWordCount());
     }
     

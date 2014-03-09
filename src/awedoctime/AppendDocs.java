@@ -44,6 +44,18 @@ public class AppendDocs implements Document {
         return structureMatchesContent && bodyMatchesContent && bodyNonZero;
     }
     
+    public HashMap<String, String> getContentMap(){
+        return new HashMap<String, String>(content);
+    }
+    
+    public HashMap<String, ArrayList<String>> getStructureMap(){
+        return new HashMap<String, ArrayList<String>>(structure);
+    }
+    
+    public ArrayList<String> getBodyArray(){
+        return new ArrayList<String>(body);
+    }
+    
     @Override
     public Document append(Document other) {
         Document newDoc = new AppendDocs(this, other);
@@ -73,23 +85,4 @@ public class AppendDocs implements Document {
         // TODO Auto-generated method stub
         return null;
     }
-
-    @Override
-    public HashMap<String, String> getContentMap() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public HashMap<String, ArrayList<String>> getStructureMap() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    @Override
-    public ArrayList<String> getBodyArray() {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
 }
