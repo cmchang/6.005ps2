@@ -132,4 +132,9 @@ public class ParagraphDoc implements Document{
         return null;
     }
 
+    @Override
+    public int wordCountNested(String id) {
+        return 0; //since no nesting
+    }
+
 }

@@ -84,7 +84,7 @@ public class DocumentTest {
     }
     
     
-    //Creating an Appended Document with (D1) Empty Document (D4) Appended Documents
+    // Creating an Appended Document with (D1) Empty Document (D4) Appended Documents
     @Test public void testToStringAppendEmptyAndOtherAppendedDocs(){
         Document empty = empty();
         Document p1 = paragraph("Paragraph 1");
@@ -98,7 +98,7 @@ public class DocumentTest {
         assertEquals(expectedAnswer,output);
     }  
     
-    //Creating an Appended Document with (D2) Paragraph Document
+    // Creating an Appended Document with (D2) Paragraph Document
     @Test public void testToStringAppendParagraphs(){
         Document p1 = paragraph("Paragraph 1");
         Document p2 = paragraph("Paragraph 2");
@@ -109,7 +109,7 @@ public class DocumentTest {
         assertEquals(expectedAnswer,output);
     }
     
-  //Creating an Appended Document with (D2) Paragraph Document (D3) Section Document
+  // Creating an Appended Document with (D2) Paragraph Document (D3) Section Document
     @Test public void testToStringAppendParagraphsAndSections(){
         Document p1 = paragraph("Paragraph 1");
         Document p2 = paragraph("Paragraph 2");
@@ -125,22 +125,61 @@ public class DocumentTest {
     
     /**
      * Tests for bodyWordCount method
+     * (A) Count words in Empty Document
+     * (B) Count words in a Paragraph Document
+     * (C) Count words in a Section Document made with a/an...
+     *      (C1) Empty Document (C2) Paragraph Document (C3) Section Document (C4) Appended Document
+     * (D) Count words in an Appended Document made with a/an...
+     *      (D1) Empty Document (D2) Paragraph Document (D3) Section Document (D4) Appended Document
      */
     
+    // (A) Count words in Empty Document
     @Test public void testBodyWordCountEmpty() {
         Document doc = empty();
         assertEquals(0, doc.bodyWordCount());
     }
     
+    // (B) Count words in a Paragraph Document
     @Test public void testBodyWordCountParagraph() {
         Document doc = paragraph("Hello, world!");
         assertEquals(2, doc.bodyWordCount());
     }
     
-    @Test public void testBodyWordCountSectionParagraphs() {
+    // Count words in a Section Document made with an (C1) Empty Document
+    @Test public void testBodyWordCountSectionEmpty() {
+        Document doc = section("Section One", empty());
+        assertEquals(0, doc.bodyWordCount());
+    }
+    
+    // Count words in a Section Document made with a (C2) Paragraph Document and an (C4) Appended Docuemnt
+    @Test public void testBodyWordCountSectionParagraphsAppended() {
         Document paragraphs = paragraph("Hello, world!").append(paragraph("Goodbye."));
         Document doc = section("Section One", paragraphs);
-//        System.out.println(doc);
         assertEquals(3, doc.bodyWordCount());
     }
+    
+    // Count words in a Section Document made with a (C3) Section Document
+    @Test public void testBodyWordCountSectionParagraphs() {
+        Document paragraphs = paragraph("Hello, world!").append(paragraph("Goodbye."));
+        Document doc = section("Section One", section("Subsection", paragraphs));
+        assertEquals(3, doc.bodyWordCount());
+    }
+    
+    // Count words in an Appended Document made with an (D1) Empty Document
+    @Test public void testBodyWordCountAppendedEmpty() {
+        Document AppendedEmptyDocs = append(empty(),append(empty(), empty()));
+        assertEquals(0, AppendedEmptyDocs.bodyWordCount());
+    }
+    
+    // Count words in an Appended Document made with a (D2) Paragraph Document and a (D2) Section Document
+    @Test public void testBodyWordCountAppendedSectionsParagraphs() {
+        Document paragraphs = append(empty(),paragraph("Hello, world!").append(paragraph("Goodbye.")));
+        Document s1 = section("Section One", paragraphs);
+        Document doc = append(s1, s1);
+        
+        assertEquals(6, doc.bodyWordCount());
+    }
+    
+    
+    
 }

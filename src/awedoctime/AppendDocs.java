@@ -91,10 +91,29 @@ public class AppendDocs implements Document {
 
     @Override
     public int bodyWordCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        int count = 0;
+        for(String id: body){
+            if(id.charAt(0) == 'P'){
+                for(String word: Helper.getListOfWords(content.get(id))) count++;
+            }else{
+                count += wordCountNested(id);
+            }
+        }
+        return count;
     }
 
+    @Override
+    public int wordCountNested(String id) {
+        int count = 0;
+        for (String nestedID: structure.get(id)){
+            if(nestedID.charAt(0) == 'P'){
+                for(String word: Helper.getListOfWords(content.get(nestedID))) count++;
+            }else{
+                count+= wordCountNested(nestedID);
+            }
+        }        return count;
+    }
+        
     @Override
     public Document tableOfContents() {
         // TODO Auto-generated method stub
@@ -112,4 +131,5 @@ public class AppendDocs implements Document {
         // TODO Auto-generated method stub
         return null;
     }
+
 }

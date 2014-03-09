@@ -127,14 +127,29 @@ public class SectionDoc implements Document {
     @Override
     public int bodyWordCount() {
         int count = 0;
-        for(String id: content.keySet()){
+        for(String id: body){
             if(id.charAt(0) == 'P'){
                 for(String word: Helper.getListOfWords(content.get(id))) count++;
+            }else{
+                count += wordCountNested(id);
             }
         }
         return count;
     }
 
+    @Override
+    public int wordCountNested(String id) {
+        int count = 0;
+        for (String nestedID: structure.get(id)){
+            if(nestedID.charAt(0) == 'P'){
+                for(String word: Helper.getListOfWords(content.get(nestedID))) count++;
+            }else{
+                count+= wordCountNested(nestedID);
+            }
+        }        return count;
+    }
+     
+    
     @Override
     public Document tableOfContents() {
         // TODO Auto-generated method stub
