@@ -1,8 +1,9 @@
 package awedoctime;
 
 import static awedoctime.AwesomeDocumentTime.*;
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -26,6 +27,8 @@ import org.junit.Test;
  * You MAY strengthen the specs of Document and test those specs.
  */
 public class DocumentTest {
+    
+
     /**
      * Tests for toString method
      * (A) Creating an Empty Document
@@ -126,11 +129,93 @@ public class DocumentTest {
     /**
      * Tests for the equals method
      * (A) Empty Documents
-     * (B) Paragraph Documents
+     * (B) Paragraph Documents with... 
+     *      (B1) same content (B2) different content
      * (C) Section Documents
-     * (D) Appended Documents
+     *      (C1) same content (C2) different content
+     * (D) Section of a Section Documents
+     *      (D1) same content (D2) different content
+     * (E) Appended Documents of...
+     *      (E1) Just paragraphs with same content 
+     *      (E2) Just paragraphs with different content
+     *      (E3) Sections and Paragraphs with same content
+     *      (E4) Sections and Paragraphs with different content
+     *      (E5) Other appended documents
+     * (F) 
      */
     
+    Document emptyA = empty();
+    Document emptyB = empty();
+    Document paragraphA = paragraph("I'm a paragraph!");
+    Document paragraphB = paragraph("I'm a paragraph!");
+    Document paragraphC = paragraph("I'm a different paragraph!");
+    Document sectionA = section("I'm a section!", paragraphA);
+    Document sectionB = section("I'm a section!", paragraphB);
+    Document sectionC = section("I'm a different section!", paragraphA);
+    Document sectionSectionA = section("I'm a section of sections!", sectionA);
+    Document sectionSectionB = section("I'm a section of sections!", sectionB);
+    Document sectionSectionC = section("I'm a different section of sections!", sectionA);
+    Document appendedParagraphsA = append(paragraphA, paragraphB);
+    Document appendedParagraphsB = append(paragraphB, paragraphA);
+    Document appendedParagraphsC = append(paragraphA, paragraphC);
+    Document appendedSectionsAB = append(sectionSectionA, sectionSectionB);
+    Document appendedSectionsBA = append(sectionSectionB, sectionSectionA);
+    Document appendedSectionsC = append(sectionSectionA, sectionSectionC);
+    
+    // (A) Empty Documents
+    @Test public void testEqualsEmptyDoc() {
+        assertEquals(emptyA, emptyB);
+    }
+    
+    // Paragraph Documents with (B1) same content
+    @Test public void testEqualsParagraphSame() {
+        assertEquals(paragraphA, paragraphB);
+    }    
+    
+    // Paragraph Documents with (B2) different content
+    @Test public void testEqualsParagraphDifferent() {
+        assertTrue(!paragraphA.equals(paragraphC));
+    }    
+
+    // Section Documents with (C1) same content
+    @Test public void testEqualsSectionSame() {
+        assertTrue(sectionA.equals(sectionB));
+    }  
+
+    // Section Documents with (C2) different content
+    @Test public void testEqualsSectionDifferent() {
+        assertTrue(!sectionA.equals(sectionC));
+    }
+    
+    // Section of a Section of Documents with (D1) same content
+    @Test public void testEqualsSectionSectionSame() {
+        assertTrue(sectionSectionA.equals(sectionSectionB));
+    }  
+
+    // Section of a Section of Documents with (D2) different content
+    @Test public void testEqualsSectionSectionDifferent() {
+        assertTrue(!sectionSectionA.equals(sectionSectionC));
+    }
+    
+    // Appended documents of (E1) Just paragraphs with same content 
+    @Test public void testEqualsAppendedParagraphsSame() {
+        assertTrue(appendedParagraphsA.equals(appendedParagraphsB));
+    }
+    
+    // Appended documents of (E2) Just paragraphs with different content
+    @Test public void testEqualsAppendedParagraphsDifferent() {
+        assertTrue(!appendedParagraphsA.equals(appendedParagraphsC));
+    }
+    
+    // Appended documents of (E3) Sections and Paragraphs with same content
+    @Test public void testEqualsAppendedSectionsSame() {
+        assertTrue(appendedSectionsAB.equals(appendedSectionsAB));
+    }
+    
+    // Appended documents of (E4) Sections and Paragraphs with different content
+    @Test public void testEqualsAppendedSectionsDifferent() {
+        assertTrue(!appendedSectionsAB.equals(appendedSectionsC));
+    }
     
     
     /**

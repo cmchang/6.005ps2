@@ -61,40 +61,12 @@ public class ParagraphDoc implements Document{
     
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((body == null) ? 0 : body.hashCode());
-        result = prime * result + ((content == null) ? 0 : content.hashCode());
-        result = prime * result
-                + ((structure == null) ? 0 : structure.hashCode());
-        return result;
+        return this.toString().hashCode();
     }
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        ParagraphDoc other = (ParagraphDoc) obj;
-        if (body == null) {
-            if (other.body != null)
-                return false;
-        } else if (!body.equals(other.body))
-            return false;
-        if (content == null) {
-            if (other.content != null)
-                return false;
-        } else if (!content.equals(other.content))
-            return false;
-        if (structure == null) {
-            if (other.structure != null)
-                return false;
-        } else if (!structure.equals(other.structure))
-            return false;
-        return true;
+        return this.toString().equals(obj.toString());
     }
 
     @Override

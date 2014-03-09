@@ -82,6 +82,16 @@ public class AppendDocs implements Document {
     }
     
     @Override
+    public int hashCode() {
+        return this.toString().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.toString().equals(obj.toString());
+    }
+
+    @Override
     public Document append(Document other) {
         Document newDoc = new AppendDocs(this, other);
         return newDoc;
