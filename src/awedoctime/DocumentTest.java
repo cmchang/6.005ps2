@@ -171,7 +171,7 @@ public class DocumentTest {
         assertEquals(0, AppendedEmptyDocs.bodyWordCount());
     }
     
-    // Count words in an Appended Document made with a (D2) Paragraph Document and a (D2) Section Document
+    // Count words in an Appended Document made with a (D2) Paragraph Document and a (D3) Section Document
     @Test public void testBodyWordCountAppendedSectionsParagraphs() {
         Document paragraphs = append(empty(),paragraph("Hello, world!").append(paragraph("Goodbye.")));
         Document s1 = section("Section One", paragraphs);
@@ -180,6 +180,15 @@ public class DocumentTest {
         assertEquals(6, doc.bodyWordCount());
     }
     
+    // Count words in an Appended Document made with a (D2) Paragraph Document and a (D3) Section Document (D4) Appended Documents
+    @Test public void testBodyWordCountAppendedAppendedDocuments() {
+        Document paragraphs = append(empty(),paragraph("Hello, world!").append(paragraph("Goodbye.")));
+        Document s1 = section("Section One", paragraphs);
+        Document appended = append(s1, s1);
+        Document doc = append(section("Title", paragraphs), section("contents",appended));
+        
+        assertEquals(9, doc.bodyWordCount());
+    }
     
     
 }
