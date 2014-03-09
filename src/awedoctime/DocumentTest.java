@@ -28,6 +28,23 @@ import org.junit.Test;
  */
 public class DocumentTest {
     
+    Document emptyA = empty();
+    Document emptyB = empty();
+    Document paragraphA = paragraph("I'm a paragraph!");
+    Document paragraphB = paragraph("I'm a paragraph!");
+    Document paragraphC = paragraph("I'm a different paragraph!");
+    Document sectionA = section("I'm a section!", paragraphA);
+    Document sectionB = section("I'm a section!", paragraphB);
+    Document sectionC = section("I'm a different section!", paragraphA);
+    Document sectionSectionA = section("I'm a section of sections!", sectionA);
+    Document sectionSectionB = section("I'm a section of sections!", sectionB);
+    Document sectionSectionC = section("I'm a different section of sections!", sectionA);
+    Document appendedParagraphsA = append(paragraphA, paragraphB);
+    Document appendedParagraphsB = append(paragraphB, paragraphA);
+    Document appendedParagraphsC = append(paragraphA, paragraphC);
+    Document appendedSectionsAB = append(sectionSectionA, sectionSectionB);
+    Document appendedSectionsBA = append(sectionSectionB, sectionSectionA);
+    Document appendedSectionsC = append(sectionSectionA, sectionSectionC);
 
     /**
      * Tests for toString method
@@ -141,26 +158,14 @@ public class DocumentTest {
      *      (E3) Sections and Paragraphs with same content
      *      (E4) Sections and Paragraphs with different content
      *      (E5) Other appended documents
-     * (F) 
+     * (F) Different documents
+     *      (F1) Empty and Paragraph
+     *      (F2) Empty and Section
+     *      (F3) Empty and Appended
+     *      (F4) Paragraph and Section
+     *      (F5) Paragraph and Appended
+     *      (F6) Section and Appended
      */
-    
-    Document emptyA = empty();
-    Document emptyB = empty();
-    Document paragraphA = paragraph("I'm a paragraph!");
-    Document paragraphB = paragraph("I'm a paragraph!");
-    Document paragraphC = paragraph("I'm a different paragraph!");
-    Document sectionA = section("I'm a section!", paragraphA);
-    Document sectionB = section("I'm a section!", paragraphB);
-    Document sectionC = section("I'm a different section!", paragraphA);
-    Document sectionSectionA = section("I'm a section of sections!", sectionA);
-    Document sectionSectionB = section("I'm a section of sections!", sectionB);
-    Document sectionSectionC = section("I'm a different section of sections!", sectionA);
-    Document appendedParagraphsA = append(paragraphA, paragraphB);
-    Document appendedParagraphsB = append(paragraphB, paragraphA);
-    Document appendedParagraphsC = append(paragraphA, paragraphC);
-    Document appendedSectionsAB = append(sectionSectionA, sectionSectionB);
-    Document appendedSectionsBA = append(sectionSectionB, sectionSectionA);
-    Document appendedSectionsC = append(sectionSectionA, sectionSectionC);
     
     // (A) Empty Documents
     @Test public void testEqualsEmptyDoc() {
@@ -217,6 +222,35 @@ public class DocumentTest {
         assertTrue(!appendedSectionsAB.equals(appendedSectionsC));
     }
     
+    //Different documents (F1) Empty and Paragraph
+    @Test public void testEqualsEmptyAndParagraph() {
+        assertTrue(!emptyA.equals(paragraphA));
+    }
+
+    //Different documents (F2) Empty and Section
+    @Test public void testEqualsEmptyAndSection() {
+        assertTrue(!emptyA.equals(sectionA));
+    }
+    
+  //Different documents (F3) Empty and Appended
+    @Test public void testEqualsEmptyAndAppended() {
+        assertTrue(!emptyA.equals(appendedParagraphsA));
+    }
+    
+    //Different documents (F4) Paragraph and Section
+    @Test public void testEqualsParagraphAndSection() {
+        assertTrue(!paragraphA.equals(sectionA));
+    }
+
+    //Different documents (F5) Paragraph and Appended
+    @Test public void testEqualsParagraphAndAppended() {
+        assertTrue(!paragraphA.equals(appendedParagraphsA));
+    }
+
+    //Different documents (F6) Section and Appended
+    @Test public void testEqualsSectionAndAppended() {
+        assertTrue(!sectionA.equals(appendedParagraphsA));
+    }
     
     /**
      * Tests for bodyWordCount method
