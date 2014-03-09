@@ -6,6 +6,20 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 /**
+ * 
+ * Document ADT
+ * 
+ * For this recursive data type, the Paragraph acts as our base cause because it just contains a string.
+ * The Section makes this data type recursive because it can contain a paragraph, another section, or nothing (empty document).  
+ * A document can be empty if it does not contain a section or a paragraph.
+ * 
+ * The variants (constructors) for a document are: Empty, Paragraph, and Section
+ * 
+ * Recursive Data Type Definition:
+ *      Document = Empty + Paragraph(String) + Section (String, Document)
+ * 
+ * --------------------------------------------------------------------------
+ * 
  * Tests for Document.
  * 
  * You SHOULD create additional test classes to unit-test variants of Document.

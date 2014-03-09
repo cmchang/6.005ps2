@@ -1,5 +1,8 @@
 package awedoctime;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * An immutable structured document.
  * 
@@ -99,4 +102,22 @@ public interface Document {
             super(message, cause);
         }
     }
+
+    /**
+     * Gets the document's content HashMap
+     * @return a new HashMap that is identical (equivalent keys and values) to the content HashMap
+     */
+    public HashMap<String, String> getContentMap();
+    
+    /**
+     * Gets the document's structure HashMap
+     * @return a new HashMap that is identical (equivalent keys and values) to the structure HashMap
+     */
+    public HashMap<String, ArrayList<String>> getStructureMap();
+    
+    /**
+     * Gets the document's body ArrayList
+     * @return a new ArrayList that is identical (equivalent strings) to the body ArrayList
+     */
+    public ArrayList<String> getBodyArray();
 }
