@@ -46,7 +46,6 @@ public class EmptyDoc implements Document{
 
     @Override
     public int bodyWordCount() {
-        // TODO Auto-generated method stub
         return 0;
     }
 

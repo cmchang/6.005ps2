@@ -51,10 +51,15 @@ public class ParagraphDoc implements Document{
 
     @Override
     public int bodyWordCount() {
-        // TODO Auto-generated method stub
-        return 0;
+        int count = 0;
+        for(String id: content.keySet()){
+            if(id.charAt(0) == 'P'){
+                for(String word: Helper.getListOfWords(content.get(id))) count++;
+            }
+        }
+        return count;
     }
-
+    
     @Override
     public Document tableOfContents() {
         // TODO Auto-generated method stub
