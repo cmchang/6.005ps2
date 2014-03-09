@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 public class SectionDoc implements Document {
 
+    //Rep Invariants
     private HashMap<String, String> content;
     private HashMap<String, ArrayList<String>> structure;
     private ArrayList<String> body;

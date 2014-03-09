@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 public class EmptyDoc implements Document{
 
+    //Rep Invariants
     private HashMap<String, String> content;
     private HashMap<String, ArrayList<String>> structure;
     private ArrayList<String> body;
@@ -11,7 +12,6 @@ public class EmptyDoc implements Document{
     
     /**
      * Initialize an empty Doc
-     * 
      */
     public EmptyDoc(){
         content = new HashMap<String, String>();

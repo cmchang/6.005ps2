@@ -6,10 +6,16 @@ import java.util.Date;
 
 public class ParagraphDoc implements Document{
 
+    //Rep Invariants
     private HashMap<String, String> content;
     private HashMap<String, ArrayList<String>> structure;
     private ArrayList<String> body;
     
+    /**
+     * Initialize a new paragraph Document
+     * 
+     * @param paragraphContent
+     */
     ParagraphDoc(String paragraphContent){
         java.util.Date date= new java.util.Date();
         String ID = CreateID.P();
