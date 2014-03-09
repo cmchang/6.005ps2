@@ -63,10 +63,10 @@ public class DocumentTest {
         Document s2 = section("Section 2", s1);
         Document finalDoc = section("Section 3", s2);
         String output = new String(finalDoc.toString());
-        System.out.println(output);
-        String expectedAnswer = "Section 3\n    Section 2\n        Section 1\n            Paragraph 1";
-        System.out.println(expectedAnswer);
-        //assertTrue(expectedAnswer.equals(output));
+//        System.out.println(output);
+        String expectedAnswer = "Section 3\n    Section 2\n        Section 1\n            Paragraph 1\n";
+//        System.out.println(expectedAnswer);
+        assertEquals(expectedAnswer,output);
     }
     
 }

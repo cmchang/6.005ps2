@@ -7,8 +7,6 @@ public class CreateID {
     public static String P(){
         PCounter++;
         return "P" + PCounter;
-        
-        
     }
     
     public static String S(){

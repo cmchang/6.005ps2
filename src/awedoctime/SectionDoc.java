@@ -26,6 +26,23 @@ public class SectionDoc implements Document {
         body.add(ID);
     }
     
+    private boolean checkRep(){
+        boolean structureMatchesContent = true;
+        for(String key: structure.keySet()){
+            if(!content.containsKey(key)) structureMatchesContent = false; 
+            for(String key2: structure.get(key)){
+                if(!content.containsKey(key2)) structureMatchesContent = false; 
+            }
+        }
+        
+        boolean bodyNonZero = body.size() >= 0;
+        boolean bodyMatchesContent = true;
+        for(String key: body){
+            if(!content.containsKey(key)) bodyMatchesContent = false; 
+        }
+        return structureMatchesContent && bodyMatchesContent && bodyNonZero;
+    }
+    
     public HashMap<String, String> getContentMap(){
         return new HashMap<String, String>(content);
     }
@@ -36,10 +53,6 @@ public class SectionDoc implements Document {
     
     public ArrayList<String> getBodyArray(){
         return new ArrayList<String>(body);
-    }
-    
-    private boolean checkRep(){
-        return true;
     }
     
     /**
@@ -70,9 +83,47 @@ public class SectionDoc implements Document {
     }
     
     @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((body == null) ? 0 : body.hashCode());
+        result = prime * result + ((content == null) ? 0 : content.hashCode());
+        result = prime * result
+                + ((structure == null) ? 0 : structure.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        SectionDoc other = (SectionDoc) obj;
+        if (body == null) {
+            if (other.body != null)
+                return false;
+        } else if (!body.equals(other.body))
+            return false;
+        if (content == null) {
+            if (other.content != null)
+                return false;
+        } else if (!content.equals(other.content))
+            return false;
+        if (structure == null) {
+            if (other.structure != null)
+                return false;
+        } else if (!structure.equals(other.structure))
+            return false;
+        return true;
+    }
+
+    @Override
     public Document append(Document other) {
-        // TODO Auto-generated method stub
-        return null;
+        Document newDoc = new AppendDocs(this, other);
+        return newDoc;
     }
 
     @Override

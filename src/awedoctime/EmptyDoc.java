@@ -8,7 +8,6 @@ public class EmptyDoc implements Document{
     private HashMap<String, ArrayList<String>> structure;
     private ArrayList<String> body;
     
-    
     /**
      * Initialize an empty Doc
      */
@@ -16,6 +15,15 @@ public class EmptyDoc implements Document{
         content = new HashMap<String, String>();
         structure = new HashMap<String, ArrayList<String>>();
         body = new ArrayList<String>();
+    }
+    
+    private boolean checkRep(){
+        boolean contentEmpty, structureEmpty, bodyEmpty;
+        contentEmpty = content.keySet().size() == 0;
+        structureEmpty = structure.keySet().size() == 0;
+        bodyEmpty = body.size() == 0;
+        return contentEmpty && structureEmpty && bodyEmpty;
+        
     }
     
     public HashMap<String, String> getContentMap(){
@@ -37,11 +45,48 @@ public class EmptyDoc implements Document{
         return "Empty";
     }
     
-    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((body == null) ? 0 : body.hashCode());
+        result = prime * result + ((content == null) ? 0 : content.hashCode());
+        result = prime * result
+                + ((structure == null) ? 0 : structure.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        EmptyDoc other = (EmptyDoc) obj;
+        if (body == null) {
+            if (other.body != null)
+                return false;
+        } else if (!body.equals(other.body))
+            return false;
+        if (content == null) {
+            if (other.content != null)
+                return false;
+        } else if (!content.equals(other.content))
+            return false;
+        if (structure == null) {
+            if (other.structure != null)
+                return false;
+        } else if (!structure.equals(other.structure))
+            return false;
+        return true;
+    }
+
     @Override
     public Document append(Document other) {
-        // TODO Auto-generated method stub
-        return null;
+        Document newDoc = new AppendDocs(this, other);
+        return newDoc;
     }
 
     @Override
