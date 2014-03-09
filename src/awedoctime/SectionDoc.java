@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 public class SectionDoc implements Document {
 
-    //Rep Invariants
     private HashMap<String, String> content;
     private HashMap<String, ArrayList<String>> structure;
     private ArrayList<String> body;
@@ -37,6 +36,39 @@ public class SectionDoc implements Document {
     
     public ArrayList<String> getBodyArray(){
         return new ArrayList<String>(body);
+    }
+    
+    private boolean checkRep(){
+        return true;
+    }
+    
+    /**
+     * Returns a concise String representation of the document.
+     */
+    @Override public String toString(){
+        String endLine = "\n";
+        String output = "";
+        
+        for(String id: body){
+            output += content.get(id) + endLine;
+            output += (id.charAt(0) == 'S') ? getNestedSections(id, 1): "" ;
+        }
+        
+        return output;
+    }
+    
+    private String getNestedSections(String ID, int indent){
+        String tab = "    ";
+        String endLine = "\n";
+        String output = "";
+        
+        for(String id: structure.get(ID)){
+            for(int x = 0; x< indent; x++) output+= tab;
+            output += content.get(id) + endLine;
+            output += (id.charAt(0) == 'S')? getNestedSections(id, indent++): "";
+        }
+        
+        return output;
     }
     
     @Override

@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 public class EmptyDoc implements Document{
 
-    //Rep Invariants
     private HashMap<String, String> content;
     private HashMap<String, ArrayList<String>> structure;
     private ArrayList<String> body;
@@ -30,6 +29,14 @@ public class EmptyDoc implements Document{
     public ArrayList<String> getBodyArray(){
         return new ArrayList<String>(body);
     }
+    
+    /**
+     * Returns a concise String representation of the document.
+     */
+    @Override public String toString(){
+        return "Empty";
+    }
+    
     
     @Override
     public Document append(Document other) {

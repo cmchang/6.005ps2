@@ -6,7 +6,6 @@ import java.util.Date;
 
 public class ParagraphDoc implements Document{
 
-    //Rep Invariants
     private HashMap<String, String> content;
     private HashMap<String, ArrayList<String>> structure;
     private ArrayList<String> body;
@@ -35,6 +34,14 @@ public class ParagraphDoc implements Document{
     public ArrayList<String> getBodyArray(){
         return new ArrayList<String>(body);
     }
+    
+    /**
+     * Returns a concise String representation of the document.
+     */
+    @Override public String toString(){
+        return "Paragraph: " + content.get(body.get(0));
+    }
+    
     
     @Override
     public Document append(Document other) {
