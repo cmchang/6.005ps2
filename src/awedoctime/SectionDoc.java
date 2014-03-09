@@ -28,18 +28,15 @@ public class SectionDoc implements Document {
     }
     
     public HashMap<String, String> getContentMap(){
-        HashMap<String, String> copy = Clone.content(content);
-        return copy;
+        return new HashMap<String, String>(content);
     }
     
     public HashMap<String, ArrayList<String>> getStructureMap(){
-        HashMap<String, ArrayList<String>> copy = Clone.structure(structure);
-        return copy;
+        return new HashMap<String, ArrayList<String>>(structure);
     }
     
     public ArrayList<String> getBodyArray(){
-        ArrayList<String> copy = Clone.body(body);
-        return copy;
+        return new ArrayList<String>(body);
     }
     
     @Override
