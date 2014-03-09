@@ -44,4 +44,29 @@ public class DocumentTest {
     }
     
     // TODO write additional tests for Document
+    
+    @Test public void testToStringEmptyDoc(){
+        Document emptyDoc = empty();
+        String output = emptyDoc.toString();
+        assertEquals(output, "Empty");
+    }
+
+    @Test public void testToStringParagraphDoc(){
+        Document paragraphDoc = paragraph("I'm a new paragraph!!");
+        String output = paragraphDoc.toString();
+        assertEquals(output, "Paragraph: I'm a new paragraph!!");
+    }
+    
+    @Test public void testToStringSectionDoc(){
+        Document p1 = paragraph("Paragraph 1");
+        Document s1 = section("Section 1", p1);
+        Document s2 = section("Section 2", s1);
+        Document finalDoc = section("Section 3", s2);
+        String output = new String(finalDoc.toString());
+        System.out.println(output);
+        String expectedAnswer = "Section 3\n    Section 2\n        Section 1\n            Paragraph 1";
+        System.out.println(expectedAnswer);
+        //assertTrue(expectedAnswer.equals(output));
+    }
+    
 }

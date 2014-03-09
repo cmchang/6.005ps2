@@ -1,14 +1,18 @@
 package awedoctime;
-import java.util.Date;
 
 public class CreateID {
+    private static int PCounter = 0;
+    private static int SCounter = 0;
+    
     public static String P(){
-        java.util.Date date= new java.util.Date();
-        return "P"+date.getTime();
+        PCounter++;
+        return "P" + PCounter;
+        
+        
     }
     
     public static String S(){
-        java.util.Date date= new java.util.Date();
-        return "S"+date.getTime();
+        SCounter++;
+        return "S" + SCounter;
     }
 }

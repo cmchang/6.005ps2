@@ -5,23 +5,23 @@ import java.util.HashMap;
 
 public class SectionDoc implements Document {
 
-    private HashMap<String, String> content;
-    private HashMap<String, ArrayList<String>> structure;
-    private ArrayList<String> body;
+    private HashMap<String, String> content = new HashMap<String, String>();
+    private HashMap<String, ArrayList<String>> structure = new HashMap<String, ArrayList<String>>();
+    private ArrayList<String> body = new ArrayList<String>();
     
     /**
      * Initialize a new section Document 
      * @param header
      * @param doc
      */
-    SectionDoc(String header, Document doc){
+    public SectionDoc(String header, Document doc){
         String ID = CreateID.S();
 
         content = doc.getContentMap();
         content.put(ID, header);
         
         structure = doc.getStructureMap();
-        structure.put(ID, doc.getBodyArray());
+        structure.put(ID, doc.getBodyArray());            
      
         body.add(ID);
     }
@@ -48,7 +48,6 @@ public class SectionDoc implements Document {
     @Override public String toString(){
         String endLine = "\n";
         String output = "";
-        
         for(String id: body){
             output += content.get(id) + endLine;
             output += (id.charAt(0) == 'S') ? getNestedSections(id, 1): "" ; //if a section, get the nested sections
@@ -61,11 +60,10 @@ public class SectionDoc implements Document {
         String tab = "    ";
         String endLine = "\n";
         String output = "";
-        
         for(String id: structure.get(ID)){
             for(int x = 0; x< indent; x++) output+= tab; //adds right number of tabs for indentation
             output += content.get(id) + endLine;
-            output += (id.charAt(0) == 'S')? getNestedSections(id, indent++): ""; //if a section, get the nested sections
+            output += (id.charAt(0) == 'S')? getNestedSections(id, indent+1): ""; //if a section, get the nested sections
         }
         
         return output;

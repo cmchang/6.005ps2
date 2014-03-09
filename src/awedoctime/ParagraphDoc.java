@@ -6,9 +6,9 @@ import java.util.Date;
 
 public class ParagraphDoc implements Document{
 
-    private HashMap<String, String> content;
-    private HashMap<String, ArrayList<String>> structure;
-    private ArrayList<String> body;
+    private HashMap<String, String> content = new HashMap<String, String>();
+    private HashMap<String, ArrayList<String>> structure = new HashMap<String, ArrayList<String>>();
+    private ArrayList<String> body = new ArrayList<String>();
     
     /**
      * Initialize a new paragraph Document
@@ -17,7 +17,7 @@ public class ParagraphDoc implements Document{
      */
     ParagraphDoc(String paragraphContent){
         java.util.Date date= new java.util.Date();
-        String ID = CreateID.P();
+        String ID = new String(CreateID.P());
         
         body.add(ID);
         content.put(ID, paragraphContent);
