@@ -516,8 +516,10 @@ public class DocumentTest {
      *      (C1) Empty Document (C2) Paragraph Document (C3) Section Document (C4) Appended Document
      * (D) Appended Document with a/an...
      *      (D1) Empty Document (D2) Paragraph Document (D3) Section Document (D4) Appended Document
-     * (E) Too many subsections for laTex to handle - expected an exception thrown
-     * @throws ConversionException 
+     * (E) Sections: contains a...
+     *      (E1) section (E2) subsection (E3) subsubsection (E4) too many subsections for Latex
+     * (F) Special characters
+     * @throws ConversionException for case (E4)
      */
     
     // (A)
@@ -532,13 +534,13 @@ public class DocumentTest {
         assertEquals(expectedAns, paragraph("I'm a paragraph").toLaTeX());
     }    
     
-    // (C1)
+    // (C1) (E1)
     @Test public void testToLatexSectionOfEmpty() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\end{document}";
         Document doc = section("I'm a section", empty());
         assertEquals(expectedAns, doc.toLaTeX());
     }    
-    // (C2)
+    // (C2) (E1)
     @Test public void testToLatexSectionSectionOfParagraph() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("I'm a section", paragraph("I'm a paragraph"));
@@ -546,21 +548,57 @@ public class DocumentTest {
     } 
 
     
-    // (C3)
+    // (C3) (E2)
     @Test public void testToLatexSectionSectionOfSection() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\subsection{I'm a subsection}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("I'm a section", section("I'm a subsection", paragraph("I'm a paragraph")));
         assertEquals(expectedAns, doc.toLaTeX());
     } 
     
-    // (C4)
+    
+    // (C4) (E1)
     @Test public void testToLatexSectionOfAppendedDoc() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\paragraph{I'm a paragraph}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("I'm a section", append(paragraph("I'm a paragraph"), paragraph("I'm a paragraph")));
         assertEquals(expectedAns, doc.toLaTeX());
     } 
     
-//    @Test public void testToLatexSection() throws ConversionException{
+    // (D1) and (D2)
+    @Test public void testToLatexAppendEmptyAndParagraph() throws ConversionException{
+        String expectedAns = "\\documentclass{article}\\begin{document}\\paragraph{I'm a paragraph}\\end{document}";
+        Document doc = append(empty(), paragraph("I'm a paragraph")); 
+        assertEquals(expectedAns, doc.toLaTeX());
+    } 
+    // (D1), (D2), (D3) and (D4)
+    @Test public void testToLatexAppendSectionAndAppendedDoc() throws ConversionException{
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Title}\\paragraph{I'm a pragraph}\\paragraph{I'm also a paragraph}\\section{I'm a section}\\subsection{I'm a subsection}\\end{document}";
+        Document doc = append(section("Title", paragraph("I'm a pragraph")), append(paragraph("I'm also a paragraph"), section("I'm a section", section("I'm a subsection", empty()))));
+        assertEquals(expectedAns, doc.toLaTeX());
+    } 
+
+    // (E3)
+    @Test public void testToLatexSubSubSection() throws ConversionException{
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Section}\\subsection{Subsection}\\subsubsection{Subsubsection}\\paragraph{I'm a paragraph}\\end{document}";
+        Document doc = section("Section", section("Subsection", section("Subsubsection", paragraph("I'm a paragraph"))));
+        assertEquals(expectedAns, doc.toLaTeX());
+    } 
+
+    // (E4)
+    @Test public void testToLatex() throws ConversionException{
+        String expectedAns = "";
+        Document doc = section("Section", section("Subsection", section("Subsubsection", section("I would be a subsubsubsection", paragraph("I'm a paragraph")))));
+
+        try {
+            doc.toLaTeX();
+            fail();
+        }
+        catch (Exception e) {
+            assertTrue(true);
+        }
+    } 
+
+    
+//    @Test public void testToLatex() throws ConversionException{
 //        String expectedAns = "";
 //        Document doc = 
 //        System.out.println(doc.toLaTeX());

@@ -179,10 +179,10 @@ public class SectionDoc implements Document {
     
     @Override
     public String toLaTeX() throws ConversionException {
-        String laTex = "";
+        String laTex = "\\documentclass{article}\\begin{document}";
         for(String id: body){
             if(id.charAt(0) == 'S'){
-                laTex += "\\documentclass{article}\\begin{document}\\section{" + content.get(id) + "}";
+                laTex += "\\section{" + content.get(id) + "}";
                 String nestedLatex = nestedLatexSections(id, 1);
                 if(nestedLatex.equals("throw exception")){
                     throw new ConversionException("Too many nested sections for LaTex Syntax");
@@ -203,19 +203,19 @@ public class SectionDoc implements Document {
         String laTex = "";
         String latexSubsection = "";
         
-        //Figure out subsection depth
-        if(nested == 1){
-            latexSubsection = "\\subsection{";
-        }else if(nested == 2){
-            latexSubsection = "\\subsubsection{";
-        }else{
-            //nested value is >2, latex can't handle more subsections --> throw error
-            return "throw exception";
-        }
-        
         //Added latex syntax
         for(String id: structure.get(nestedID)){
             if(id.charAt(0) == 'S'){
+                //Figure out subsection depth
+                if(nested == 1){
+                    latexSubsection = "\\subsection{";
+                }else if(nested == 2){
+                    latexSubsection = "\\subsubsection{";
+                }else{
+                    //nested value is >2, latex can't handle more subsections --> throw error
+                    return "throw exception";
+                }
+                
                 laTex += latexSubsection +  content.get(id) + "}";
                 String nestedLatex = nestedLatexSections(id, nested+1);
                 if(nestedLatex.equals("throw exception")){
