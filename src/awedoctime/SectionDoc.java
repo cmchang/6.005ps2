@@ -281,16 +281,11 @@ public class SectionDoc implements Document {
     public String toMarkdownBullets() {
         String endLine = "\n";
         String bullet = "+    ";
-        String output = "" + bullet;
+        String output = "";
         for(String id: body){
-            if(id.charAt(0) == 'P'){
-                output += Helper.markdownCharEscape(content.get(id)) + endLine;                
-            }else{
-                output += Helper.markdownCharEscape(content.get(id)) + endLine; 
-            }
-            
+            output += bullet + Helper.markdownCharEscape(content.get(id)) + endLine;                
             if(id.charAt(0) == 'S'){  //if a section, get the nested sections
-                    output +=  getNestedMarkdownBulletSections(id, 2);
+                output +=  getNestedMarkdownBulletSections(id, 2);
             }
         }
         return output;
@@ -305,11 +300,11 @@ public class SectionDoc implements Document {
         
         for(String nestedID: structure.get(id)){
             if(nestedID.charAt(0)=='S'){
-                for(int x = 0; x< tabs; x++) output+= tab; //adds right number of hashtags for indentation
+                for(int x = 0; x< tabs; x++) output+= tab; //adds right number of tabs for indentation
             }
-            output += Helper.markdownCharEscape(content.get(nestedID)) + endLine;
+            output += bullet + Helper.markdownCharEscape(content.get(nestedID)) + endLine;
             if(nestedID.charAt(0) == 'S'){  //if a section, get the nested sections
-                output += bullet + getNestedMarkdownBulletSections(nestedID, tabs+1);
+                output += getNestedMarkdownBulletSections(nestedID, tabs+1);
             }
         }
         return output;

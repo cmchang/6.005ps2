@@ -313,13 +313,34 @@ public class AppendDocs implements Document {
 
     @Override
     public String toMarkdownBullets() {
-        // TODO Auto-generated method stub
-        return null;
+        String endLine = "\n";
+        String bullet = "+    ";
+        String output = "";
+        for(String id: body){
+            output += bullet + Helper.markdownCharEscape(content.get(id)) + endLine;                
+            if(id.charAt(0) == 'S'){  //if a section, get the nested sections
+                output +=  getNestedMarkdownBulletSections(id, 2);
+            }
+        }
+        return output;
     }
 
     @Override
     public String getNestedMarkdownBulletSections(String id, int tabs) {
-        // TODO Auto-generated method stub
-        return null;
+        String endLine = "\n";
+        String tab = "    ";
+        String bullet = "+    ";
+        String output = "";
+        
+        for(String nestedID: structure.get(id)){
+            if(nestedID.charAt(0)=='S'){
+                for(int x = 0; x< tabs; x++) output+= tab; //adds right number of tabs for indentation
+            }
+            output += bullet + Helper.markdownCharEscape(content.get(nestedID)) + endLine;
+            if(nestedID.charAt(0) == 'S'){  //if a section, get the nested sections
+                output += getNestedMarkdownBulletSections(nestedID, tabs+1);
+            }
+        }
+        return output;
     }
 }
