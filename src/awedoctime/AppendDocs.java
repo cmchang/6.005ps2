@@ -200,7 +200,7 @@ public class AppendDocs implements Document {
         String laTex = "\\documentclass{article}\\begin{document}";
         for(String id: body){
             if(id.charAt(0) == 'S'){
-                laTex += "\\section{" + content.get(id) + "}";
+                laTex += "\\section{" + Helper.specialLatexCharacters(content.get(id)) + "}";
                 String nestedLatex = nestedLatexSections(id, 1);
                 if(nestedLatex.equals("throw exception")){
                     throw new ConversionException("Too many nested sections for LaTex Syntax");
@@ -209,7 +209,7 @@ public class AppendDocs implements Document {
                 }
                 
             }else{ // content.charAt(0) == 'P'
-                laTex += "\\paragraph{" + content.get(id) + "}";
+                laTex += "\\paragraph{" + Helper.specialLatexCharacters(content.get(id)) + "}";
             }
         }
         laTex += "\\end{document}";
@@ -234,7 +234,7 @@ public class AppendDocs implements Document {
                     return "throw exception";
                 }
                 
-                laTex += latexSubsection +  content.get(id) + "}";
+                laTex += latexSubsection +  Helper.specialLatexCharacters(content.get(id)) + "}";
                 String nestedLatex = nestedLatexSections(id, nested+1);
                 if(nestedLatex.equals("throw exception")){
                     laTex = "throw exception";
@@ -242,12 +242,11 @@ public class AppendDocs implements Document {
                     laTex += nestedLatex;
                 }
             }else{// content.charAt(0) == 'P'
-                laTex += "\\paragraph{"+ content.get(id) + "}";
+                laTex += "\\paragraph{"+ Helper.specialLatexCharacters(content.get(id)) + "}";
             }
         }
         return laTex;
     }
-    
     
     @Override
     public String toMarkdown() throws ConversionException {

@@ -520,6 +520,7 @@ public class DocumentTest {
      *      (E1) section (E2) subsection (E3) subsubsection (E4) too many subsections for Latex
      * (F) Special characters in
      *      (F1) Paragraph Document (F2) Section Document (F3) Appended Document
+     *      (F4) consecutive Symbols
      * @throws ConversionException for case (E4)
      */
     
@@ -598,11 +599,27 @@ public class DocumentTest {
         }
     } 
 
+    // (F1)
     @Test public void testToLatexSpecialCharParagraph() throws ConversionException{
-        String expectedAns = "";
-        Document doc = paragraph("I have {special}& characters!");
-        System.out.println(doc.toLaTeX());
-       // assertEquals(expectedAns, doc.toLaTeX());
+        String expectedAns = "\\documentclass{article}\\begin{document}\\paragraph{\\#I\\_have\\textbackslash \\{special\\}\\&\\&\\%\\^{} characters!\\^{}}\\end{document}";
+        Document doc = paragraph("#I_have\\ {special}&&%^ characters!^");
+        assertEquals(expectedAns, doc.toLaTeX());
+    } 
+    
+    // (F2)
+    @Test public void testToLatexSpecialCharSection() throws ConversionException{
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Section\\$\\$}\\subsection{Sub\\_section\\^{}}\\paragraph{\\#Paragraph}\\end{document}";
+        Document doc = section("Section$$", section("Sub_section^", paragraph("#Paragraph")));
+        assertEquals(expectedAns, doc.toLaTeX());
+    } 
+
+    // (F3)
+    @Test public void testToLatexSpecialCharAppendedDocs() throws ConversionException{
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Section\\$\\$}\\subsection{Sub\\_section\\^{}}\\paragraph{\\#Paragraph \\%f \\$\\&mbol\\$}\\section{Section\\$\\$}\\subsection{Sub\\_section\\^{}}\\paragraph{\\#Paragraph \\%f \\$\\&mbol\\$}\\end{document}";
+        Document sections = section("Section$$", section("Sub_section^", paragraph("#Paragraph %f $&mbol$")));
+        Document doc = append(sections, sections);
+//        System.out.println(doc.toLaTeX());
+        assertEquals(expectedAns, doc.toLaTeX());
     } 
     
 //    @Test public void testToLatex() throws ConversionException{

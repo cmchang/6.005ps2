@@ -43,22 +43,17 @@ public class Helper {
              specialCharLoc.add(i);   
             }
         }
-        if(specialCharLoc.size() == 0){ //no special character found
-            return text;
-        }
-        System.out.println(specialCharLoc);
+        if(specialCharLoc.size() == 0) return text;//no special character
         
         //replace special characters with LaTex compatible syntax
         String output = "";
         if(specialCharLoc.size() >= 0){
             output += text.substring(0, specialCharLoc.get(0));
             output += insertLatexSyntax(text.charAt(specialCharLoc.get(0)));
-            System.out.println(output);
         }
         for(int i = 1; i < specialCharLoc.size(); i++){
             output += text.substring(specialCharLoc.get(i-1)+1, specialCharLoc.get(i));
             output += insertLatexSyntax(text.charAt(specialCharLoc.get(i)));
-            System.out.println(output);
         }
         
         //check the last section of the text
@@ -70,7 +65,6 @@ public class Helper {
                 output+= text.substring(specialCharLoc.get(specialCharLoc.size()-1));
             }
         }
-        System.out.println(output);
         return output;
     }
     
