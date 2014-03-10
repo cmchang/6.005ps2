@@ -32,7 +32,7 @@ public class Helper {
      * @return
      */
     public static String specialLatexCharacters(String text){
-        String specialCharacters = "#$%&~_^{}"; // not testing for backslashes yet
+        String specialCharacters = "#$%&~_^{}\\"; // not testing for backslashes yet
         char[] textChar = text.toCharArray();
 
         //find all the locations of the special characters IN ORDER
@@ -61,9 +61,14 @@ public class Helper {
             System.out.println(output);
         }
         
+        //check the last section of the text
         String lastSection = text.substring(specialCharLoc.get(specialCharLoc.size()-1));
         if(lastSection.length() > 1 && !specialCharacters.contains(lastSection)){
-            output+= text.substring(specialCharLoc.get(specialCharLoc.size()-1));
+            if(specialCharacters.contains(Character.toString(lastSection.charAt(0)))){ 
+                output+= text.substring(specialCharLoc.get(specialCharLoc.size()-1)+1);
+            }else{
+                output+= text.substring(specialCharLoc.get(specialCharLoc.size()-1));
+            }
         }
         System.out.println(output);
         return output;
@@ -80,6 +85,8 @@ public class Helper {
             output = "\\~{}";
         }else if(symbol == '^'){
             output = "\\^{}";
+        }else if(symbol == '\\'){
+            output = "\\textbackslash";
         }
         return output;
     }

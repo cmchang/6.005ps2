@@ -518,7 +518,8 @@ public class DocumentTest {
      *      (D1) Empty Document (D2) Paragraph Document (D3) Section Document (D4) Appended Document
      * (E) Sections: contains a...
      *      (E1) section (E2) subsection (E3) subsubsection (E4) too many subsections for Latex
-     * (F) Special characters
+     * (F) Special characters in
+     *      (F1) Paragraph Document (F2) Section Document (F3) Appended Document
      * @throws ConversionException for case (E4)
      */
     
@@ -597,6 +598,12 @@ public class DocumentTest {
         }
     } 
 
+    @Test public void testToLatexSpecialCharParagraph() throws ConversionException{
+        String expectedAns = "";
+        Document doc = paragraph("I have {special}& characters!");
+        System.out.println(doc.toLaTeX());
+       // assertEquals(expectedAns, doc.toLaTeX());
+    } 
     
 //    @Test public void testToLatex() throws ConversionException{
 //        String expectedAns = "";
@@ -604,7 +611,8 @@ public class DocumentTest {
 //        System.out.println(doc.toLaTeX());
 //        assertEquals(expectedAns, doc.toLaTeX());
 //    } 
-    @Test public void rand(){
-        Helper.specialLatexCharacters("hello$jk$lj$");
-    }
+    
+//    @Test public void rand(){
+//        Helper.specialLatexCharacters("hello\\??");
+//    }
 }
