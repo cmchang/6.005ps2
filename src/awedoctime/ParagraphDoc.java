@@ -98,7 +98,7 @@ public class ParagraphDoc implements Document{
     
     @Override
     public String toLaTeX() throws ConversionException {
-        String laTex = "\\documentclass{article}\\begin{document}" + content.get(body.get(0)) + "\\end{document}";
+        String laTex = "\\documentclass{article}\\begin{document}\\paragraph{" + content.get(body.get(0)) + "}\\end{document}";
         return laTex;
     }
 

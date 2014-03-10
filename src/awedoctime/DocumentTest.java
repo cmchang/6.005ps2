@@ -528,7 +528,7 @@ public class DocumentTest {
     
     // (B)
     @Test public void testToLatexParagraphDoc() throws ConversionException{
-        String expectedAns = "\\documentclass{article}\\begin{document}I'm a paragraph\\end{document}";
+        String expectedAns = "\\documentclass{article}\\begin{document}\\paragraph{I'm a paragraph}\\end{document}";
         assertEquals(expectedAns, paragraph("I'm a paragraph").toLaTeX());
     }    
     
@@ -540,17 +540,23 @@ public class DocumentTest {
     }    
     // (C2)
     @Test public void testToLatexSectionSectionOfParagraph() throws ConversionException{
-        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}I'm a paragraph\\end{document}";
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("I'm a section", paragraph("I'm a paragraph"));
         assertEquals(expectedAns, doc.toLaTeX());
     } 
 
     
     // (C3)
-    @Test public void testToLatexSection() throws ConversionException{
-        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\subsection{I'm a subsection}I'm a paragraph\\end{document}";
+    @Test public void testToLatexSectionSectionOfSection() throws ConversionException{
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\subsection{I'm a subsection}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("I'm a section", section("I'm a subsection", paragraph("I'm a paragraph")));
-        System.out.println(doc.toLaTeX());
+        assertEquals(expectedAns, doc.toLaTeX());
+    } 
+    
+    // (C4)
+    @Test public void testToLatexSectionOfAppendedDoc() throws ConversionException{
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\paragraph{I'm a paragraph}\\paragraph{I'm a paragraph}\\end{document}";
+        Document doc = section("I'm a section", append(paragraph("I'm a paragraph"), paragraph("I'm a paragraph")));
         assertEquals(expectedAns, doc.toLaTeX());
     } 
     

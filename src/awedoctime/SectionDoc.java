@@ -3,6 +3,8 @@ package awedoctime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import awedoctime.Document.ConversionException;
+
 public class SectionDoc implements Document {
 
     private HashMap<String, String> content = new HashMap<String, String>();
@@ -189,7 +191,7 @@ public class SectionDoc implements Document {
                 }
                 
             }else{ // content.charAt(0) == 'P'
-                laTex += content.get(id);
+                laTex += "\\paragraph{" + content.get(id) + "}";
             }
         }
         laTex += "\\end{document}";
@@ -222,7 +224,7 @@ public class SectionDoc implements Document {
                     laTex += nestedLatex;
                 }
             }else{// content.charAt(0) == 'P'
-                laTex += content.get(id);
+                laTex += "\\paragraph{"+ content.get(id) + "}";
             }
         }
         return laTex;
