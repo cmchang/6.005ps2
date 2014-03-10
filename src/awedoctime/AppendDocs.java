@@ -22,8 +22,34 @@ public class AppendDocs implements Document {
         //combine document information
         content.putAll(doc2.getContentMap());
         structure.putAll(doc2.getStructureMap());
-        for(String bodyContent: doc2.getBodyArray()){
-            body.add(bodyContent);
+        if(body.size() >= 1){
+            String lastBodyContent = body.get(body.size()-1);
+            if(lastBodyContent.charAt(0) == 'S'){ //last element in doc1's body is a Section
+                boolean paragraphBeforeSection = true;
+                
+                for(String bodyContent: doc2.getBodyArray()){
+                    if(bodyContent.charAt(0) == 'S'){
+                        paragraphBeforeSection = false;
+                        body.add(bodyContent);
+                    }else{ 
+                        if(paragraphBeforeSection){
+                            structure.get(lastBodyContent).add(bodyContent);
+                        }else{
+                            /// Not necessary to implement bc
+                            /// invariant such that that no section can be followed 
+                            /// by a paragraph in the same scope
+                        }
+                    }
+                }
+            }else{//last element in doc1's body is a Paragraph
+                for(String bodyContent: doc2.getBodyArray()){
+                    body.add(bodyContent);
+                }
+            }
+        }else{//doc1's body is empty
+            for(String bodyContent: doc2.getBodyArray()){
+                body.add(bodyContent);
+            }
         }
     }
     

@@ -121,10 +121,10 @@ public class SectionDoc implements Document {
         }        return count;
     }
      
-    
     @Override
     public Document tableOfContents() {
-        // TODO Auto-generated method stub
+        Document output;
+        
         return null;
     }
 

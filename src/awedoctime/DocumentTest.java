@@ -49,7 +49,8 @@ public class DocumentTest {
     /**
      * Tests for toString method
      * (A) Creating an Empty Document
-     * (B) Creating a Paragraph Document
+     * (B) Creating a Paragraph Document with a/an...
+     *      (B1) Empty String (B2) Non-empty string
      * (C) Creating a Section Document with a/an...
      *      (C1) Empty Document (C2) Paragraph Document (C3) Section Document (C4) Appended Document
      * (D) Creating an Appended Document with a/an...
@@ -62,7 +63,15 @@ public class DocumentTest {
         String output = emptyDoc.toString();
         assertEquals(output, "Empty");
     }
-    // (B) Creating a Paragraph Document
+
+    // Creating a Paragraph Document with an (B1) empty string
+    @Test public void testToStringParagraphDocEmptyString(){
+        Document paragraphDoc = paragraph("");
+        String output = paragraphDoc.toString();
+        assertEquals(output, "Paragraph: ");
+    }
+    
+    // Creating a Paragraph Document with a (B2) None-empty string
     @Test public void testToStringParagraphDoc(){
         Document paragraphDoc = paragraph("I'm a new paragraph!!");
         String output = paragraphDoc.toString();

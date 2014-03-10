@@ -68,8 +68,7 @@ public class EmptyDoc implements Document{
 
     @Override
     public Document tableOfContents() {
-        // TODO Auto-generated method stub
-        return null;
+        return new EmptyDoc();
     }
 
     @Override
