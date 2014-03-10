@@ -2,7 +2,6 @@ package awedoctime;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Date;
 
 public class ParagraphDoc implements Document{
 
@@ -16,7 +15,6 @@ public class ParagraphDoc implements Document{
      * @param paragraphContent
      */
     public ParagraphDoc(String paragraphContent){
-        java.util.Date date= new java.util.Date();
         String ID = new String(CreateID.P());
         
         body.add(ID);

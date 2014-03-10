@@ -3,7 +3,6 @@ package awedoctime;
 import static awedoctime.AwesomeDocumentTime.*;
 import static org.junit.Assert.*;
 
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 import awedoctime.Document.ConversionException;
@@ -634,7 +633,6 @@ public class DocumentTest {
 
     // (E4)
     @Test public void testToLatexTooManySubsections() throws ConversionException{
-        String expectedAns = "";
         Document doc = section("Section", section("Subsection", section("Subsubsection", section("I would be a subsubsubsection", paragraph("I'm a paragraph")))));
 
         try {
@@ -809,7 +807,6 @@ public class DocumentTest {
 
     // (E4)
     @Test public void testToMarkdownTooManySubsections() throws ConversionException{
-        String expectedAns = "";
         Document doc = section("Section", section("Subsection", section("Subsubsection", section("Subsubsubsection", section("Subsubsubsubsection", section("Subsubsubsubsubsection", section("Subsubsubsubsubsubsection", paragraph("I'm a paragraph"))))))));
         try {
             doc.toMarkdown();

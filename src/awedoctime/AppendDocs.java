@@ -3,8 +3,6 @@ package awedoctime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import awedoctime.Document.ConversionException;
-
 public class AppendDocs implements Document {
 
     private HashMap<String, String> content = new HashMap<String, String>();
