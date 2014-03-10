@@ -232,7 +232,34 @@ public class SectionDoc implements Document {
     
     @Override
     public String toMarkdown() throws ConversionException {
-        return null;
+        String endLine = "\n";
+        String output = "";
+        for(String id: body){
+            if(id.charAt(0) == 'P'){
+                output += content.get(id) + endLine;                
+            }else{
+                output += "#" + content.get(id) + endLine; 
+            }
+            
+            output += (id.charAt(0) == 'S') ? getNestedMarkDownSections(id, 2): "" ; //if a section, get the nested sections
+        }
+        
+        return output;
+    }
+
+    @Override
+    public String getNestedMarkDownSections(String id, int hashtags) {
+        String endLine = "\n";
+        String output = "";
+        for(String nestedID: structure.get(id)){
+            if(nestedID.charAt(0)=='S'){
+                for(int x = 0; x< hashtags; x++) output+= "#"; //adds right number of hashtags for indentation
+            }
+            output += content.get(nestedID) + endLine;
+            output += (nestedID.charAt(0) == 'S')? getNestedMarkDownSections(nestedID, hashtags+1): ""; //if a section, get the nested sections
+        }
+        
+        return output;
     }
 
 }

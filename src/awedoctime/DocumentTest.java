@@ -628,5 +628,13 @@ public class DocumentTest {
 //        System.out.println(doc.toLaTeX());
 //        assertEquals(expectedAns, doc.toLaTeX());
 //    } 
-    
+    @Test public void BAH(){
+        Document doc = section("hi", section("plah", paragraph("meh")));
+        try {
+            System.out.println(doc.toMarkdown());
+        } catch (ConversionException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+    }
 }

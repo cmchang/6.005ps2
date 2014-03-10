@@ -96,6 +96,11 @@ public class EmptyDoc implements Document{
         return "";
     }
 
+    @Override
+    public String getNestedMarkDownSections(String id, int hashtags) {
+        return "";
+    }
+
 
 
 }

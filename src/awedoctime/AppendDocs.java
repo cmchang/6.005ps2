@@ -263,4 +263,10 @@ public class AppendDocs implements Document {
         return null;
     }
 
+    @Override
+    public String getNestedMarkDownSections(String id, int hashtags) {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
 }

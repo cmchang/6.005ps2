@@ -117,5 +117,10 @@ public class ParagraphDoc implements Document{
         return content.get(body.get(0));
     }
 
+    @Override
+    public String getNestedMarkDownSections(String id, int hashtags) {
+        return "";
+    }
+
 
 }

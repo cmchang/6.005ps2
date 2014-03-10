@@ -78,6 +78,7 @@ public interface Document {
      * @throws ConversionException if the document cannot be converted
      */
     public String toMarkdown() throws ConversionException;
+    public String getNestedMarkDownSections(String id, int hashtags);
     
     /**
      * Returns a concise String representation of the document.
