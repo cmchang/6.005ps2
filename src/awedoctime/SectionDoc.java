@@ -140,7 +140,7 @@ public class SectionDoc implements Document {
                 
                 ArrayList<Integer> arraySectionNum = new ArrayList<Integer>();
                 arraySectionNum.add(sectionNum);
-                newSection = new SectionDoc(header, nestedHeaders(id, arraySectionNum));
+                newSection = new AppendDocs(new ParagraphDoc(header), nestedHeaders(id, arraySectionNum));
                 sectionNum++;
             }
             output = new AppendDocs(output, newSection);
@@ -167,7 +167,7 @@ public class SectionDoc implements Document {
                 
                 ArrayList<Integer> newNested = new ArrayList<Integer>(nested);
                 newNested.add(sectionNum);
-                newSection = new SectionDoc(header, nestedHeaders(ID, newNested));
+                newSection = new AppendDocs(new ParagraphDoc(header), nestedHeaders(ID, newNested));
                 sectionNum++;
             }
             output = new AppendDocs(output, newSection);

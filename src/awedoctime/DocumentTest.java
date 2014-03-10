@@ -497,12 +497,12 @@ public class DocumentTest {
         Document Title = section("Title", section("HighSection",append(s1, s2)));
         Document doc = append(Title, section("Second High Section", (append(s1,s2))));
         String expectedAnswer = "1. Title (0 paragraphs)\n"
-                + "    1.1. HighSection (0 paragraphs)\n"
-                + "        1.1.1. Section One (2 paragraphs)\n"
-                + "        1.1.2. Section two (2 paragraphs)\n"
+                + "1.1. HighSection (0 paragraphs)\n"
+                + "1.1.1. Section One (2 paragraphs)\n"
+                + "1.1.2. Section two (2 paragraphs)\n"
                 + "2. Second High Section (0 paragraphs)\n"
-                + "    2.1. Section One (2 paragraphs)\n"
-                + "    2.2. Section two (2 paragraphs)\n";
+                + "2.1. Section One (2 paragraphs)\n"
+                + "2.2. Section two (2 paragraphs)\n";
 
         assertEquals(expectedAnswer, doc.tableOfContents().toString());
     }
