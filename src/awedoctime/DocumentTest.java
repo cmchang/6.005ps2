@@ -146,11 +146,11 @@ public class DocumentTest {
         Document p1 = paragraph("Paragraph 1");
         Document p2 = paragraph("Paragraph 2");
         Document twoPs = append(p1, p2);
-        Document s1 = section("Section 1", twoPs);
+        Document s1 = section("Section 1", section("Section2", section("Section3",twoPs)));
         Document finalDoc = append(p1, s1);
         
         String output = new String(finalDoc.toString());
-        String expectedAnswer = "Paragraph 1\nSection 1\n    Paragraph 1\n    Paragraph 2\n";
+        String expectedAnswer = "Paragraph 1\nSection 1\n    Section2\n        Section3\n            Paragraph 1\n            Paragraph 2";
         assertEquals(expectedAnswer,output);
     }
     
@@ -629,9 +629,4 @@ public class DocumentTest {
 //        assertEquals(expectedAns, doc.toLaTeX());
 //    } 
     
-//    @Test public void rand(){
-////        Helper.specialLatexCharacters("hello\\??");
-//        Document myDoc = section("S",section("S1", section("S2", paragraph("paragraph"))));
-//        System.out.println(append(myDoc, paragraph("something")));
-//    }
 }
