@@ -573,7 +573,7 @@ public class DocumentTest {
     } 
     // (D1), (D2), (D3) and (D4)
     @Test public void testToLatexAppendSectionAndAppendedDoc() throws ConversionException{
-        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Title}\\paragraph{I'm a pragraph}\\paragraph{I'm also a paragraph}\\section{I'm a section}\\subsection{I'm a subsection}\\end{document}";
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Title}\\paragraph{I'm a pragraph}\\section{I'm a section}\\subsection{I'm a subsection}\\end{document}";
         Document doc = append(section("Title", paragraph("I'm a pragraph")), append(paragraph("I'm also a paragraph"), section("I'm a section", section("I'm a subsection", empty()))));
         assertEquals(expectedAns, doc.toLaTeX());
     } 
@@ -630,6 +630,8 @@ public class DocumentTest {
 //    } 
     
 //    @Test public void rand(){
-//        Helper.specialLatexCharacters("hello\\??");
+////        Helper.specialLatexCharacters("hello\\??");
+//        Document myDoc = section("S",section("S1", section("S2", paragraph("paragraph"))));
+//        System.out.println(append(myDoc, paragraph("something")));
 //    }
 }

@@ -30,8 +30,17 @@ public class AppendDocs implements Document {
                 for(String bodyContent: doc2.getBodyArray()){
                     if(bodyContent.charAt(0) == 'S'){
                         body.add(bodyContent);
-                    }else{ 
-                        structure.get(lastBodyContent).add(bodyContent);
+                    }else{ //find the last section
+                        String lastID = lastBodyContent;
+                        ArrayList<String> currentList = structure.get(lastBodyContent);
+                        while(lastID.charAt(0) == 'S'){
+                            if (currentList.isEmpty()) {
+                                structure.get(lastBodyContent).add(lastID); //
+                              }else{
+                                  lastID = currentList.get(currentList.size()-1);
+                                  currentList = structure.get(lastID);
+                              }
+                        }
                     }
                 }
             }else{//last element in doc1's body is a Paragraph
