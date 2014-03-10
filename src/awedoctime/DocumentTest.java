@@ -61,21 +61,21 @@ public class DocumentTest {
     @Test public void testToStringEmptyDoc(){
         Document emptyDoc = empty();
         String output = emptyDoc.toString();
-        assertEquals(output, "Empty");
+        assertEquals(output, "");
     }
 
     // Creating a Paragraph Document with an (B1) empty string
     @Test public void testToStringParagraphDocEmptyString(){
         Document paragraphDoc = paragraph("");
         String output = paragraphDoc.toString();
-        assertEquals(output, "Paragraph: ");
+        assertEquals(output, "");
     }
     
     // Creating a Paragraph Document with a (B2) None-empty string
     @Test public void testToStringParagraphDoc(){
         Document paragraphDoc = paragraph("I'm a new paragraph!!");
         String output = paragraphDoc.toString();
-        assertEquals(output, "Paragraph: I'm a new paragraph!!");
+        assertEquals(output, "I'm a new paragraph!!");
     }
     
     // Creating a Section Document with (C1) An Empty Document
@@ -437,15 +437,72 @@ public class DocumentTest {
         assertEquals(9, doc.bodyWordCount());
     }
     
+    /**
+     * Tests for tableOfContents method for a document containing a/an...
+     * (A) Empty Document
+     * (B) Paragraph Document
+     * (C) Section Document with a/an...
+     *      (C1) Empty Document (C2) Paragraph Document (C3) Section Document (C4) Appended Document
+     * (D) Appended Document with a/an...
+     *      (D1) Empty Document (D2) Paragraph Document (D3) Section Document (D4) Appended Document
+     */
     
-    @Test public void RANDOM() {
+    //Empty Document (A)
+    @Test public void testTableOfContentsEmptyDoc(){
+        String expectedAnswer = "";
+        assertEquals(expectedAnswer, empty().tableOfContents().toString());
+    }
+    
+    //Paragraph Document (B)
+    @Test public void testTableOfContentsParagraphDoc(){
+        String expectedAnswer = "";
+        assertEquals(expectedAnswer, paragraph("I'm a paragrph").tableOfContents().toString());
+    }    
+    
+    // (C1)
+    @Test public void testTableOfContentsSectionOfEmpty(){
+        String expectedAnswer = "1. Section (0 paragraphs)\n";
+        Document doc = section("Section", empty());
+        assertEquals(expectedAnswer, doc.tableOfContents().toString());
+    }   
+    
+    //(C4)
+    @Test public void testTableOfContentsSectionOfAppended(){
+        String expectedAnswer = "1. Section (2 paragraphs)\n";
+        Document doc = section("Section", append(paragraph("p1"), paragraph("p2")));
+        assertEquals(expectedAnswer, doc.tableOfContents().toString());
+    } 
+    
+    //(D1)
+    @Test public void testTableOfContentsAppendedOfEmpty(){
+        String expectedAnswer = "";
+        Document doc = append(paragraph("p1"), empty());
+        assertEquals(expectedAnswer, doc.tableOfContents().toString());
+    } 
+    
+    //(D3)
+    @Test public void testTableOfContentsAppendedOfSections(){
+        String expectedAnswer = "1. Section1 (0 paragraphs)\n2. Section2 (1 paragraphs)\n";
+        Document doc = append(section("Section1", empty()), section("Section2", paragraph("hellooo")));
+        assertEquals(expectedAnswer, doc.tableOfContents().toString());
+    } 
+    
+    // Appended Document with (B), (C2), (C3), (D2), (D4)
+    @Test public void testTableOfContentsAppendedWithManyThings() {
         Document paragraphs = append(empty(),paragraph("Hello, world!").append(paragraph("Goodbye.")));
         Document s1 = section("Section One", paragraphs);
         Document s2 = section("Section two", paragraphs);
         Document Title = section("Title", section("HighSection",append(s1, s2)));
         Document doc = append(Title, section("Second High Section", (append(s1,s2))));
-        System.out.println(doc.tableOfContents());
-        
+        String expectedAnswer = "1. Title (0 paragraphs)\n"
+                + "    1.1. HighSection (0 paragraphs)\n"
+                + "        1.1.1. Section One (2 paragraphs)\n"
+                + "        1.1.2. Section two (2 paragraphs)\n"
+                + "2. Second High Section (0 paragraphs)\n"
+                + "    2.1. Section One (2 paragraphs)\n"
+                + "    2.2. Section two (2 paragraphs)\n";
+
+        assertEquals(expectedAnswer, doc.tableOfContents().toString());
     }
     
 }

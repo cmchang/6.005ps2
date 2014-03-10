@@ -124,6 +124,7 @@ public class SectionDoc implements Document {
     @Override
     public Document tableOfContents() {
         Document output = new EmptyDoc();
+        
         int sectionNum = 1;
         for(String id:body){
             String header = "";

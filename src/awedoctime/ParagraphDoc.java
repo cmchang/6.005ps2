@@ -56,7 +56,7 @@ public class ParagraphDoc implements Document{
      * Returns a concise String representation of the document.
      */
     @Override public String toString(){
-        return "Paragraph: " + content.get(body.get(0));
+        return "" + content.get(body.get(0));
     }
     
     @Override
