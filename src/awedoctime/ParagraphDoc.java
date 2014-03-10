@@ -98,10 +98,15 @@ public class ParagraphDoc implements Document{
     
     @Override
     public String toLaTeX() throws ConversionException {
-        // TODO Auto-generated method stub
-        return null;
+        String laTex = "\\documentclass{article}\\begin{document}" + content.get(body.get(0)) + "\\end{document}";
+        return laTex;
     }
 
+    @Override
+    public String nestedLatexSections(String nestedID, int nested){
+        return "";
+    }
+    
     @Override
     public String toMarkdown() throws ConversionException {
         // TODO Auto-generated method stub

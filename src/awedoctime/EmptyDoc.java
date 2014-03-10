@@ -78,8 +78,12 @@ public class EmptyDoc implements Document{
 
     @Override
     public String toLaTeX() throws ConversionException {
-        // TODO Auto-generated method stub
-        return null;
+        String laTex = "\\documentclass{article}\\begin{document}\\end{document}";
+        return laTex;
+    }
+    @Override
+    public String nestedLatexSections(String nestedID, int nested){
+        return "";
     }
 
     @Override

@@ -5,7 +5,6 @@ import java.util.HashMap;
 
 public class AppendDocs implements Document {
 
-
     private HashMap<String, String> content = new HashMap<String, String>();
     private HashMap<String, ArrayList<String>> structure = new HashMap<String, ArrayList<String>>();
     private ArrayList<String> body = new ArrayList<String>();
@@ -200,6 +199,11 @@ public class AppendDocs implements Document {
         return null;
     }
 
+    @Override
+    public String nestedLatexSections(String nestedID, int nested){
+        return "";
+    }
+    
     @Override
     public String toMarkdown() throws ConversionException {
         // TODO Auto-generated method stub

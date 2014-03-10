@@ -6,6 +6,8 @@ import static org.junit.Assert.*;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import awedoctime.Document.ConversionException;
+
 /**
  * 
  * Document ADT
@@ -13,11 +15,12 @@ import org.junit.Test;
  * For this recursive data type, the Paragraph acts as our base cause because it just contains a string.
  * The Section makes this data type recursive because it can contain a paragraph, another section, or nothing (empty document).  
  * A document can be empty if it does not contain a section or a paragraph.
+ * Appended document returns a document after adding the content of one document to another.
  * 
- * The variants (constructors) for a document are: Empty, Paragraph, and Section
+ * The variants (constructors) for a document are: Empty, Paragraph, Section, and Appended
  * 
  * Recursive Data Type Definition:
- *      Document = Empty + Paragraph(String) + Section (String, Document)
+ *      Document = Empty + Paragraph(String) + Section (String, Document) + AppendedDocs(Document, Document)
  * 
  * --------------------------------------------------------------------------
  * 
@@ -504,5 +507,58 @@ public class DocumentTest {
 
         assertEquals(expectedAnswer, doc.tableOfContents().toString());
     }
+    
+    /**
+     * Tests for laTex method for a document containing a/an...
+     * (A) Empty Document
+     * (B) Paragraph Document
+     * (C) Section Document with a/an...
+     *      (C1) Empty Document (C2) Paragraph Document (C3) Section Document (C4) Appended Document
+     * (D) Appended Document with a/an...
+     *      (D1) Empty Document (D2) Paragraph Document (D3) Section Document (D4) Appended Document
+     * (E) Too many subsections for laTex to handle - expected an exception thrown
+     * @throws ConversionException 
+     */
+    
+    // (A)
+    @Test public void testToLatexEmptyDoc() throws ConversionException{
+        String expectedAns = "\\documentclass{article}\\begin{document}\\end{document}";
+        assertEquals(expectedAns, empty().toLaTeX());
+    }
+    
+    // (B)
+    @Test public void testToLatexParagraphDoc() throws ConversionException{
+        String expectedAns = "\\documentclass{article}\\begin{document}I'm a paragraph\\end{document}";
+        assertEquals(expectedAns, paragraph("I'm a paragraph").toLaTeX());
+    }    
+    
+    // (C1)
+    @Test public void testToLatexSectionOfEmpty() throws ConversionException{
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\end{document}";
+        Document doc = section("I'm a section", empty());
+        assertEquals(expectedAns, doc.toLaTeX());
+    }    
+    // (C2)
+    @Test public void testToLatexSectionSectionOfParagraph() throws ConversionException{
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}I'm a paragraph\\end{document}";
+        Document doc = section("I'm a section", paragraph("I'm a paragraph"));
+        assertEquals(expectedAns, doc.toLaTeX());
+    } 
+
+    
+    // (C3)
+    @Test public void testToLatexSection() throws ConversionException{
+        String expectedAns = "";
+        Document doc = section("I'm a section", section("I'm a subsection", paragraph("I'm a paragraph")));
+        System.out.println(doc.toLaTeX());
+//        assertEquals(expectedAns, doc.toLaTeX());
+    } 
+    
+//    @Test public void testToLatexSection() throws ConversionException{
+//        String expectedAns = "";
+//        Document doc = 
+//        System.out.println(doc.toLaTeX());
+//        assertEquals(expectedAns, doc.toLaTeX());
+//    } 
     
 }

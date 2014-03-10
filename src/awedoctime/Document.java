@@ -67,6 +67,7 @@ public interface Document {
      * @throws ConversionException if the document cannot be converted
      */
     public String toLaTeX() throws ConversionException;
+    public String nestedLatexSections(String nestedID, int nested);
     
     /**
      * Returns a Markdown representation of the document that:

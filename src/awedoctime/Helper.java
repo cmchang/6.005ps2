@@ -1,6 +1,7 @@
 package awedoctime;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class Helper {
 
@@ -23,5 +24,4 @@ public class Helper {
         
         return ListOfWords;
     }
-    
 }
