@@ -154,6 +154,17 @@ public class SectionDoc implements Document {
             Document newSection = new EmptyDoc();
             if(id.charAt(0) == 'S'){
                 header+= sectionNum + ". " + content.get(id);
+                
+                //get number of paragraphs
+                int paragraphCount = 0;
+                System.out.println(structure.get(id));
+                for(String nestedID: structure.get(id)){
+                    System.out.println(nestedID);
+                    System.out.println(nestedID.charAt(0) == 'P');
+                    paragraphCount += nestedID.charAt(0) == 'P'? 1: 0;
+                }
+                header+= " (" + paragraphCount + " paragraphs)";
+                
                 ArrayList<Integer> arraySectionNum = new ArrayList<Integer>();
                 arraySectionNum.add(sectionNum);
                 newSection = new SectionDoc(header, nestedHeaders(id, arraySectionNum));
@@ -173,10 +184,18 @@ public class SectionDoc implements Document {
             if(ID.charAt(0) == 'S'){
                 for(int num: nested) header+= num + ".";
                 header+= sectionNum + ". " + content.get(ID);
-                sectionNum++;
+                
+              //get number of paragraphs
+                int paragraphCount = 0;
+                for(String nestedID: structure.get(id)){
+                    paragraphCount += nestedID.charAt(0) == 'P'? 1: 0;
+                }
+                header+= " (" + paragraphCount + " paragraphs)";
+                
                 ArrayList<Integer> newNested = new ArrayList<Integer>(nested);
                 newNested.add(sectionNum);
                 newSection = new SectionDoc(header, nestedHeaders(ID, newNested));
+                sectionNum++;
             }
             output = new AppendDocs(output, newSection);
 
