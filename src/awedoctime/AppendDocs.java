@@ -20,10 +20,6 @@ public class AppendDocs implements Document {
         structure = doc1.getStructureMap(); 
         body = doc1.getBodyArray();
 
-        System.out.println(body);
-        System.out.println(structure);
-        System.out.println(content);
-        
         //combine document information
         content.putAll(doc2.getContentMap());
         structure.putAll(doc2.getStructureMap());
@@ -31,14 +27,11 @@ public class AppendDocs implements Document {
             String lastBodyContent = body.get(body.size()-1);
             if(lastBodyContent.charAt(0) == 'S'){ //last element in doc1's body is a Section
                 for(String bodyContent: doc2.getBodyArray()){
-                    System.out.println("bodyContent: " + bodyContent);
                     if(bodyContent.charAt(0) == 'S'){
                         body.add(bodyContent);
                     }else{ //it's a paragraph, so find the last section to insert it in
                         String lastID = lastBodyContent;
                         ArrayList<String> currentList = structure.get(lastID);
-                        System.out.println("lastID: "+lastID);
-                        System.out.println(currentList);
                         while(lastID.charAt(0) == 'S'){
                             if (currentList.isEmpty()) {
                                 structure.get(lastID).add(bodyContent); //

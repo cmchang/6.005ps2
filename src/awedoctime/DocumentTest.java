@@ -150,8 +150,7 @@ public class DocumentTest {
         Document finalDoc = append(s1, p1);
         
         String output = new String(finalDoc.toString());
-        System.out.println(output);
-        String expectedAnswer = "Paragraph 1\nSection 1\n    Section2\n        Section3\n            Paragraph 1\n            Paragraph 2\n";
+        String expectedAnswer = "Section 1\n    Section2\n        Section3\n            Paragraph 1\n            Paragraph 2\n            Paragraph 1\n";
         assertEquals(expectedAnswer,output);
     }
     
@@ -611,7 +610,7 @@ public class DocumentTest {
     } 
     // (D1), (D2), (D3) and (D4)
     @Test public void testToLatexAppendSectionAndAppendedDoc() throws ConversionException{
-        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Title}\\paragraph{I'm a pragraph}\\section{I'm a section}\\subsection{I'm a subsection}\\end{document}";
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Title}\\paragraph{I'm a pragraph}\\paragraph{I'm also a paragraph}\\section{I'm a section}\\subsection{I'm a subsection}\\end{document}";
         Document doc = append(section("Title", paragraph("I'm a pragraph")), append(paragraph("I'm also a paragraph"), section("I'm a section", section("I'm a subsection", empty()))));
         try {
             assertEquals(expectedAns, doc.toLaTeX());
@@ -786,7 +785,7 @@ public class DocumentTest {
     } 
     // (D1), (D2), (D3) and (D4)
     @Test public void testToMarkdownAppendSectionAndAppendedDoc() throws ConversionException{
-        String expectedAns = "#Title\nI'm a pragraph\n#I'm a section\n##I'm a subsection\n";
+        String expectedAns = "#Title\nI'm a pragraph\nI'm also a paragraph\n#I'm a section\n##I'm a subsection\n";
         Document doc = append(section("Title", paragraph("I'm a pragraph")), append(paragraph("I'm also a paragraph"), section("I'm a section", section("I'm a subsection", empty()))));
         try {
             assertEquals(expectedAns, doc.toMarkdown());
@@ -861,26 +860,6 @@ public class DocumentTest {
 //        }
 //    } 
     
-    @Test public void BAH(){
-        Document doc = append(section("Sec",section("Sec",section("Sec", paragraph("that")))), paragraph("this"));
-        System.out.println("------");
-        System.out.println(doc);
-        
-        
-    }
-    
 }
 
-//try {
-//} catch (ConversionException e) {
-//    e.printStackTrace();
-//    fail();
-//}
-
-//    @Test public void testToLatex() throws ConversionException{
-//        String expectedAns = "";
-//        Document doc = 
-//        System.out.println(doc.toLaTeX());
-//        assertEquals(expectedAns, doc.toLaTeX());
-//    } 
     
