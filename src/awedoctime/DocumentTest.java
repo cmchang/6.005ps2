@@ -253,6 +253,115 @@ public class DocumentTest {
     }
     
     /**
+     * Tests for the hashcode method
+     * (A) Empty Documents
+     * (B) Paragraph Documents with... 
+     *      (B1) same content (B2) different content
+     * (C) Section Documents
+     *      (C1) same content (C2) different content
+     * (D) Section of a Section Documents
+     *      (D1) same content (D2) different content
+     * (E) Appended Documents of...
+     *      (E1) Just paragraphs with same content 
+     *      (E2) Just paragraphs with different content
+     *      (E3) Sections and Paragraphs with same content
+     *      (E4) Sections and Paragraphs with different content
+     *      (E5) Other appended documents
+     * (F) Different documents
+     *      (F1) Empty and Paragraph
+     *      (F2) Empty and Section
+     *      (F3) Empty and Appended
+     *      (F4) Paragraph and Section
+     *      (F5) Paragraph and Appended
+     *      (F6) Section and Appended
+     */
+    
+    // (A) Empty Documents
+    @Test public void testHashCodeEmptyDoc() {
+        assertEquals(emptyA.hashCode(), emptyB.hashCode());
+    }
+    
+    // Paragraph Documents with (B1) same content
+    @Test public void testHashCodeParagraphSame() {
+        assertEquals(paragraphA.hashCode(), paragraphB.hashCode());
+    }    
+    
+    // Paragraph Documents with (B2) different content
+    @Test public void testHashCodeParagraphDifferent() {
+        assertTrue(paragraphA.hashCode() != paragraphC.hashCode());
+    }    
+
+    // Section Documents with (C1) same content
+    @Test public void testHashCodeSectionSame() {
+        assertEquals(sectionA.hashCode(), sectionB.hashCode());
+    }  
+
+    // Section Documents with (C2) different content
+    @Test public void testHashCodeSectionDifferent() {
+        assertTrue(sectionA.hashCode() != sectionC.hashCode());
+    }
+    
+    // Section of a Section of Documents with (D1) same content
+    @Test public void testHashCodeSectionSectionSame() {
+        assertEquals(sectionSectionA.hashCode(), sectionSectionB.hashCode());
+    }  
+
+    // Section of a Section of Documents with (D2) different content
+    @Test public void testHashCodeSectionSectionDifferent() {
+        assertTrue(sectionSectionA.hashCode() != sectionSectionC.hashCode());
+    }
+    
+    // Appended documents of (E1) Just paragraphs with same content 
+    @Test public void testHashCodeAppendedParagraphsSame() {
+        assertEquals(appendedParagraphsA.hashCode(), appendedParagraphsB.hashCode());
+    }
+    
+    // Appended documents of (E2) Just paragraphs with different content
+    @Test public void testHashCodeAppendedParagraphsDifferent() {
+        assertTrue(appendedParagraphsA.hashCode() != appendedParagraphsC.hashCode());
+    }
+    
+    // Appended documents of (E3) Sections and Paragraphs with same content
+    @Test public void testHashCodeAppendedSectionsSame() {
+        assertEquals(appendedSectionsAB.hashCode(), appendedSectionsAB.hashCode());
+    }
+    
+    // Appended documents of (E4) Sections and Paragraphs with different content
+    @Test public void testHashCodeAppendedSectionsDifferent() {
+        assertTrue(appendedSectionsAB.hashCode() != appendedSectionsC.hashCode());
+    }
+    
+    //Different documents (F1) Empty and Paragraph
+    @Test public void testHashCodeEmptyAndParagraph() {
+        assertTrue(emptyA.hashCode() != paragraphA.hashCode());
+    }
+
+    //Different documents (F2) Empty and Section
+    @Test public void testHashCodeEmptyAndSection() {
+        assertTrue(emptyA.hashCode() != sectionA.hashCode());
+    }
+    
+  //Different documents (F3) Empty and Appended
+    @Test public void testHashCodeEmptyAndAppended() {
+        assertTrue(emptyA.hashCode() != appendedParagraphsA.hashCode());
+    }
+    
+    //Different documents (F4) Paragraph and Section
+    @Test public void testHashCodeParagraphAndSection() {
+        assertTrue(paragraphA.hashCode() != sectionA.hashCode());
+    }
+
+    //Different documents (F5) Paragraph and Appended
+    @Test public void testHashCodeParagraphAndAppended() {
+        assertTrue(paragraphA.hashCode() != appendedParagraphsA.hashCode());
+    }
+
+    //Different documents (F6) Section and Appended
+    @Test public void testHashCodeSectionAndAppended() {
+        assertTrue(sectionA.hashCode() != appendedParagraphsA.hashCode());
+    }    
+    
+    /**
      * Tests for bodyWordCount method
      * (A) Count words in Empty Document
      * (B) Count words in a Paragraph Document
