@@ -30,7 +30,7 @@ public class AppendDocs implements Document {
                     if(bodyContent.charAt(0) == 'S'){
                         body.add(bodyContent);
                     }else{ 
-                            structure.get(lastBodyContent).add(bodyContent);
+                        structure.get(lastBodyContent).add(bodyContent);
                     }
                 }
             }else{//last element in doc1's body is a Paragraph
