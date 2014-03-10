@@ -3,6 +3,8 @@ package awedoctime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import awedoctime.Document.ConversionException;
+
 public class AppendDocs implements Document {
 
     private HashMap<String, String> content = new HashMap<String, String>();
@@ -266,9 +268,9 @@ public class AppendDocs implements Document {
         String output = "";
         for(String id: body){
             if(id.charAt(0) == 'P'){
-                output += content.get(id) + endLine;                
+                output += Helper.markdownCharEscape(content.get(id)) + endLine;                
             }else{
-                output += "#" + content.get(id) + endLine; 
+                output += "#" + Helper.markdownCharEscape(content.get(id)) + endLine; 
             }
             
             if(id.charAt(0) == 'S'){  //if a section, get the nested sections
@@ -294,7 +296,7 @@ public class AppendDocs implements Document {
                 }
                 for(int x = 0; x< hashtags; x++) output+= "#"; //adds right number of hashtags for indentation
             }
-            output += content.get(nestedID) + endLine;
+            output += Helper.markdownCharEscape(content.get(nestedID)) + endLine;
             if(nestedID.charAt(0) == 'S'){  //if a section, get the nested sections
                 String nestedStr = getNestedMarkDownSections(nestedID, hashtags+1);
                 if(nestedStr.equals("throw exception")){

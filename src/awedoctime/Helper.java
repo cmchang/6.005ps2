@@ -134,11 +134,13 @@ public class Helper {
     }
     public static String insertMarkdownSyntax(char symbol){
         String symbolStr = Character.toString(symbol);
-        String simpleSymbols = "\\`*_{}[]()#+-.!";
+        String simpleSymbols = "`*_{}[]()#+-.!";
         String output = new String();
         
         if(simpleSymbols.contains(symbolStr)){
             output = "\\" + symbolStr;
+        }else if(symbol == '\\'){
+            output = "\\\\";
         }
         return output;
     }
