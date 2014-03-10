@@ -232,7 +232,6 @@ public class SectionDoc implements Document {
     
     @Override
     public String toMarkdown() throws ConversionException {
-        // TODO Auto-generated method stub
         return null;
     }
 

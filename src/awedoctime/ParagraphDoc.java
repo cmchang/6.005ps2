@@ -85,6 +85,11 @@ public class ParagraphDoc implements Document{
         }
         return count;
     }
+
+    @Override
+    public int wordCountNested(String id) {
+        return 0; //since no nesting
+    }
     
     @Override
     public Document tableOfContents() {
@@ -109,13 +114,8 @@ public class ParagraphDoc implements Document{
     
     @Override
     public String toMarkdown() throws ConversionException {
-        // TODO Auto-generated method stub
-        return null;
+        return content.get(body.get(0));
     }
 
-    @Override
-    public int wordCountNested(String id) {
-        return 0; //since no nesting
-    }
 
 }
