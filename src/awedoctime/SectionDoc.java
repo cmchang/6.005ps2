@@ -203,9 +203,9 @@ public class SectionDoc implements Document {
         
         //Figure out subsection depth
         if(nested == 1){
-            latexSubsection = "\\subsection{'";
+            latexSubsection = "\\subsection{";
         }else if(nested == 2){
-            latexSubsection = "\\subsubsection{'";
+            latexSubsection = "\\subsubsection{";
         }else{
             //nested value is >2, latex can't handle more subsections --> throw error
             return "throw exception";
@@ -214,7 +214,7 @@ public class SectionDoc implements Document {
         //Added latex syntax
         for(String id: structure.get(nestedID)){
             if(id.charAt(0) == 'S'){
-                laTex += latexSubsection +  content.get(id) + "'}";
+                laTex += latexSubsection +  content.get(id) + "}";
                 String nestedLatex = nestedLatexSections(id, nested+1);
                 if(nestedLatex.equals("throw exception")){
                     laTex = "throw exception";

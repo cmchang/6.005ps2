@@ -3,6 +3,8 @@ package awedoctime;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import awedoctime.Document.ConversionException;
+
 public class AppendDocs implements Document {
 
     private HashMap<String, String> content = new HashMap<String, String>();
@@ -195,13 +197,55 @@ public class AppendDocs implements Document {
     
     @Override
     public String toLaTeX() throws ConversionException {
-        // TODO Auto-generated method stub
-        return null;
+        String laTex = "";
+        for(String id: body){
+            if(id.charAt(0) == 'S'){
+                laTex += "\\documentclass{article}\\begin{document}\\section{" + content.get(id) + "}";
+                String nestedLatex = nestedLatexSections(id, 1);
+                if(nestedLatex.equals("throw exception")){
+                    throw new ConversionException("Too many nested sections for LaTex Syntax");
+                }else{
+                    laTex += nestedLatex;
+                }
+                
+            }else{ // content.charAt(0) == 'P'
+                laTex += content.get(id);
+            }
+        }
+        laTex += "\\end{document}";
+        return laTex;
     }
 
     @Override
     public String nestedLatexSections(String nestedID, int nested){
-        return "";
+        String laTex = "";
+        String latexSubsection = "";
+        
+        //Figure out subsection depth
+        if(nested == 1){
+            latexSubsection = "\\subsection{";
+        }else if(nested == 2){
+            latexSubsection = "\\subsubsection{";
+        }else{
+            //nested value is >2, latex can't handle more subsections --> throw error
+            return "throw exception";
+        }
+        
+        //Added latex syntax
+        for(String id: structure.get(nestedID)){
+            if(id.charAt(0) == 'S'){
+                laTex += latexSubsection +  content.get(id) + "}";
+                String nestedLatex = nestedLatexSections(id, nested+1);
+                if(nestedLatex.equals("throw exception")){
+                    laTex = "throw exception";
+                }else{
+                    laTex += nestedLatex;
+                }
+            }else{// content.charAt(0) == 'P'
+                laTex += content.get(id);
+            }
+        }
+        return laTex;
     }
     
     @Override

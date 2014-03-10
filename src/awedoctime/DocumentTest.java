@@ -548,10 +548,10 @@ public class DocumentTest {
     
     // (C3)
     @Test public void testToLatexSection() throws ConversionException{
-        String expectedAns = "";
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\subsection{I'm a subsection}I'm a paragraph\\end{document}";
         Document doc = section("I'm a section", section("I'm a subsection", paragraph("I'm a paragraph")));
         System.out.println(doc.toLaTeX());
-//        assertEquals(expectedAns, doc.toLaTeX());
+        assertEquals(expectedAns, doc.toLaTeX());
     } 
     
 //    @Test public void testToLatexSection() throws ConversionException{
