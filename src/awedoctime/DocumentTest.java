@@ -527,26 +527,48 @@ public class DocumentTest {
     // (A)
     @Test public void testToLatexEmptyDoc() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\end{document}";
-        assertEquals(expectedAns, empty().toLaTeX());
+        try {
+            assertEquals(expectedAns, empty().toLaTeX());
+
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     }
     
     // (B)
     @Test public void testToLatexParagraphDoc() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\paragraph{I'm a paragraph}\\end{document}";
-        assertEquals(expectedAns, paragraph("I'm a paragraph").toLaTeX());
+        try {
+            assertEquals(expectedAns, paragraph("I'm a paragraph").toLaTeX());
+
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     }    
     
     // (C1) (E1)
     @Test public void testToLatexSectionOfEmpty() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\end{document}";
         Document doc = section("I'm a section", empty());
-        assertEquals(expectedAns, doc.toLaTeX());
+        try {
+            assertEquals(expectedAns, doc.toLaTeX());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     }    
     // (C2) (E1)
     @Test public void testToLatexSectionSectionOfParagraph() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("I'm a section", paragraph("I'm a paragraph"));
-        assertEquals(expectedAns, doc.toLaTeX());
+        try {
+            assertEquals(expectedAns, doc.toLaTeX());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     } 
 
     
@@ -554,7 +576,12 @@ public class DocumentTest {
     @Test public void testToLatexSectionSectionOfSection() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\subsection{I'm a subsection}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("I'm a section", section("I'm a subsection", paragraph("I'm a paragraph")));
-        assertEquals(expectedAns, doc.toLaTeX());
+        try {
+            assertEquals(expectedAns, doc.toLaTeX());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     } 
     
     
@@ -562,27 +589,47 @@ public class DocumentTest {
     @Test public void testToLatexSectionOfAppendedDoc() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\paragraph{I'm a paragraph}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("I'm a section", append(paragraph("I'm a paragraph"), paragraph("I'm a paragraph")));
-        assertEquals(expectedAns, doc.toLaTeX());
+        try {
+            assertEquals(expectedAns, doc.toLaTeX());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     } 
     
     // (D1) and (D2)
     @Test public void testToLatexAppendEmptyAndParagraph() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = append(empty(), paragraph("I'm a paragraph")); 
-        assertEquals(expectedAns, doc.toLaTeX());
+        try {
+            assertEquals(expectedAns, doc.toLaTeX());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     } 
     // (D1), (D2), (D3) and (D4)
     @Test public void testToLatexAppendSectionAndAppendedDoc() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{Title}\\paragraph{I'm a pragraph}\\section{I'm a section}\\subsection{I'm a subsection}\\end{document}";
         Document doc = append(section("Title", paragraph("I'm a pragraph")), append(paragraph("I'm also a paragraph"), section("I'm a section", section("I'm a subsection", empty()))));
-        assertEquals(expectedAns, doc.toLaTeX());
+        try {
+            assertEquals(expectedAns, doc.toLaTeX());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     } 
 
     // (E3)
     @Test public void testToLatexSubSubSection() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{Section}\\subsection{Subsection}\\subsubsection{Subsubsection}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("Section", section("Subsection", section("Subsubsection", paragraph("I'm a paragraph"))));
-        assertEquals(expectedAns, doc.toLaTeX());
+        try {
+            assertEquals(expectedAns, doc.toLaTeX());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     } 
 
     // (E4)
@@ -603,14 +650,24 @@ public class DocumentTest {
     @Test public void testToLatexSpecialCharParagraph() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\paragraph{\\#I\\_have\\textbackslash \\{special\\}\\&\\&\\%\\^{} characters!\\^{}}\\end{document}";
         Document doc = paragraph("#I_have\\ {special}&&%^ characters!^");
-        assertEquals(expectedAns, doc.toLaTeX());
+        try {
+            assertEquals(expectedAns, doc.toLaTeX());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     } 
     
     // (F2)
     @Test public void testToLatexSpecialCharSection() throws ConversionException{
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{Section\\$\\$}\\subsection{Sub\\_section\\^{}}\\paragraph{\\#Paragraph}\\end{document}";
         Document doc = section("Section$$", section("Sub_section^", paragraph("#Paragraph")));
-        assertEquals(expectedAns, doc.toLaTeX());
+        try {
+            assertEquals(expectedAns, doc.toLaTeX());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     } 
 
     // (F3)
@@ -618,23 +675,35 @@ public class DocumentTest {
         String expectedAns = "\\documentclass{article}\\begin{document}\\section{Section\\$\\$}\\subsection{Sub\\_section\\^{}}\\paragraph{\\#Paragraph \\%f \\$\\&mbol\\$}\\section{Section\\$\\$}\\subsection{Sub\\_section\\^{}}\\paragraph{\\#Paragraph \\%f \\$\\&mbol\\$}\\end{document}";
         Document sections = section("Section$$", section("Sub_section^", paragraph("#Paragraph %f $&mbol$")));
         Document doc = append(sections, sections);
-//        System.out.println(doc.toLaTeX());
-        assertEquals(expectedAns, doc.toLaTeX());
+        try {
+            assertEquals(expectedAns, doc.toLaTeX());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
     } 
     
+}
+
+//try {
+//} catch (ConversionException e) {
+//    e.printStackTrace();
+//    fail();
+//}
+
 //    @Test public void testToLatex() throws ConversionException{
 //        String expectedAns = "";
 //        Document doc = 
 //        System.out.println(doc.toLaTeX());
 //        assertEquals(expectedAns, doc.toLaTeX());
 //    } 
-    @Test public void BAH(){
-        Document doc = section("hi", section("plah", paragraph("meh")));
-        try {
-            System.out.println(doc.toMarkdown());
-        } catch (ConversionException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
-    }
-}
+    
+//    @Test public void BAH(){
+//        Document doc = section("hi", section("hi", section("hi", section("hi", section("hi", section("hi", section("plah", paragraph("meh"))))))));
+//        try {
+//            System.out.println(doc.toMarkdown());
+//        } catch (ConversionException e) {
+//            e.printStackTrace();
+//            fail();
+//        }
+//    }

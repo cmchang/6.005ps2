@@ -241,9 +241,15 @@ public class SectionDoc implements Document {
                 output += "#" + content.get(id) + endLine; 
             }
             
-            output += (id.charAt(0) == 'S') ? getNestedMarkDownSections(id, 2): "" ; //if a section, get the nested sections
+            if(id.charAt(0) == 'S'){  //if a section, get the nested sections
+                String nestedStr = getNestedMarkDownSections(id, 2);
+                if(nestedStr.equals("throw exception")){
+                    throw new ConversionException("Too many nested sections for LaTex Syntax");
+                }else{
+                    output +=  nestedStr;
+                }
+            }
         }
-        
         return output;
     }
 
@@ -253,13 +259,23 @@ public class SectionDoc implements Document {
         String output = "";
         for(String nestedID: structure.get(id)){
             if(nestedID.charAt(0)=='S'){
+                if(hashtags > 6){
+                    return "throw exception";
+                }
                 for(int x = 0; x< hashtags; x++) output+= "#"; //adds right number of hashtags for indentation
             }
             output += content.get(nestedID) + endLine;
-            output += (nestedID.charAt(0) == 'S')? getNestedMarkDownSections(nestedID, hashtags+1): ""; //if a section, get the nested sections
+            if(nestedID.charAt(0) == 'S'){  //if a section, get the nested sections
+                String nestedStr = getNestedMarkDownSections(nestedID, hashtags+1);
+                if(nestedStr.equals("throw exception")){
+                    return "throw exception";
+                }else{
+                    output +=  nestedStr;
+                }
+                    
+            }
         }
         
         return output;
     }
-
 }
