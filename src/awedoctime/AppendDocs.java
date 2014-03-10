@@ -102,7 +102,7 @@ public class AppendDocs implements Document {
         return output;
     }
     
-    private String getNestedSections(String ID, int indent){
+    public String getNestedSections(String ID, int indent){
         String tab = "    ";
         String endLine = "\n";
         String output = "";
@@ -309,5 +309,17 @@ public class AppendDocs implements Document {
         }
         
         return output;
+    }
+
+    @Override
+    public String toMarkdownBullets() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    @Override
+    public String getNestedMarkdownBulletSections(String id, int tabs) {
+        // TODO Auto-generated method stub
+        return null;
     }
 }

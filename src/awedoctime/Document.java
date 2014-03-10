@@ -84,7 +84,7 @@ public interface Document {
      * Returns a concise String representation of the document.
      */
     @Override public String toString();
-    
+    public String getNestedSections(String ID, int indent);
     
     /**
      * Indicates that a document conversion could not be completed.
@@ -128,4 +128,7 @@ public interface Document {
      * @return a new ArrayList that is identical (equivalent strings) to the body ArrayList
      */
     public ArrayList<String> getBodyArray();
+    
+    public String toMarkdownBullets();
+    public String getNestedMarkdownBulletSections(String id, int tabs);
 }

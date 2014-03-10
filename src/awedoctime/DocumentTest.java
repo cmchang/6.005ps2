@@ -690,7 +690,7 @@ public class DocumentTest {
      * (D) Appended Document with a/an...
      *      (D1) Empty Document (D2) Paragraph Document (D3) Section Document (D4) Appended Document
      * (E) Sections: contains a...
-     *      (E1) section (E2) subsection (E3) subsubsection (E4) too many subsections for Latex
+     *      (E1) section (E2) subsection (E3) subsubsection
      * (F) Special characters in
      *      (F1) Paragraph Document (F2) Section Document (F3) Appended Document
      *      (F4) consecutive Symbols
@@ -834,7 +834,6 @@ public class DocumentTest {
     @Test public void testToMarkdownSpecialCharSection() throws ConversionException{
         String expectedAns = "#\\[Sec\\+ion\\]\n##Sub\\_secti\\*n\n\\#Paragraph\n";
         Document doc = section("[Sec+ion]", section("Sub_secti*n", paragraph("#Paragraph")));
-        System.out.println(doc.toMarkdown());
 
         try {
             assertEquals(expectedAns, doc.toMarkdown());
@@ -849,7 +848,6 @@ public class DocumentTest {
         String expectedAns = "#1\\. Section\n##2\\. Sub\\_section\n2\\.1 \\#Par\\*\\*\\*graph \\*f symbols\\!\n#1\\. Section\n##2\\. Sub\\_section\n2\\.1 \\#Par\\*\\*\\*graph \\*f symbols\\!\n";
         Document sections = section("1. Section", section("2. Sub_section", paragraph("2.1 #Par***graph *f symbols!")));
         Document doc = append(sections, sections);
-        System.out.println(doc.toMarkdown());
 
         try {
             assertEquals(expectedAns, doc.toMarkdown());
@@ -859,7 +857,105 @@ public class DocumentTest {
         }
     } 
 
-    //"\\`*_{}[]()#+-.!"
+    /**
+     * Tests for markdown method with bullets for a document containing a/an...
+     * (A) Empty Document
+     * (B) Paragraph Document
+     * (C) Section Document with a/an...
+     *      (C1) Empty Document (C2) Paragraph Document (C3) Section Document (C4) Appended Document
+     * (D) Appended Document with a/an...
+     *      (D1) Empty Document (D2) Paragraph Document (D3) Section Document (D4) Appended Document
+     * (E) Sections: contains a...
+     *      (E1) section (E2) subsection (E3) subsubsection (E4) too many subsections for Latex
+     * (F) Special characters in
+     *      (F1) Paragraph Document (F2) Section Document (F3) Appended Document
+     *      (F4) consecutive Symbols
+     * @throws ConversionException for case (E4)
+     */
+    
+ // (A)
+    @Test public void testToMarkdownBulletsEmptyDoc(){
+        String expectedAns = "";
+        assertEquals(expectedAns, empty().toMarkdownBullets());
+    }
+    
+    // (B)
+    @Test public void testToMarkdownBulletsParagraphDoc(){
+        String expectedAns = "I'm a paragraph";
+        assertEquals(expectedAns, paragraph("I'm a paragraph").toMarkdownBullets());
+    }    
+    
+    // (C1) (E1)
+    @Test public void testToMarkdownBulletsSectionOfEmpty(){
+        String expectedAns = "#I'm a section\n";
+        Document doc = section("I'm a section", empty());
+        assertEquals(expectedAns, doc.toMarkdownBullets());
+    }    
+    // (C2) (E1)
+    @Test public void testToMarkdownBulletsSectionSectionOfParagraph(){
+        String expectedAns = "#I'm a section\nI'm a paragraph\n";
+        Document doc = section("I'm a section", paragraph("I'm a paragraph"));
+        assertEquals(expectedAns, doc.toMarkdownBullets());
+    } 
+
+    
+    // (C3) (E2)
+    @Test public void testToMarkdownBulletsSectionSectionOfSection(){
+        String expectedAns = "#I'm a section\n##I'm a subsection\nI'm a paragraph\n";
+        Document doc = section("I'm a section", section("I'm a subsection", paragraph("I'm a paragraph")));
+        assertEquals(expectedAns, doc.toMarkdownBullets());
+    } 
+    
+    
+    // (C4) (E1)
+    @Test public void testToMarkdownBulletsSectionOfAppendedDoc(){
+        String expectedAns = "#I'm a section\nI'm a paragraph\nI'm a paragraph\n";
+        Document doc = section("I'm a section", append(paragraph("I'm a paragraph"), paragraph("I'm a paragraph")));
+        assertEquals(expectedAns, doc.toMarkdownBullets());
+    } 
+    
+    // (D1) and (D2)
+    @Test public void testToMarkdownBulletsAppendEmptyAndParagraph(){
+        String expectedAns = "I'm a paragraph\n";
+        Document doc = append(empty(), paragraph("I'm a paragraph")); 
+        assertEquals(expectedAns, doc.toMarkdownBullets());
+    } 
+    // (D1), (D2), (D3) and (D4)
+    @Test public void testToMarkdownBulletsAppendSectionAndAppendedDoc(){
+        String expectedAns = "#Title\nI'm a pragraph\nI'm also a paragraph\n#I'm a section\n##I'm a subsection\n";
+        Document doc = append(section("Title", paragraph("I'm a pragraph")), append(paragraph("I'm also a paragraph"), section("I'm a section", section("I'm a subsection", empty()))));
+        assertEquals(expectedAns, doc.toMarkdownBullets());
+    } 
+
+    // (E3)
+    @Test public void testToMarkdownBulletsSubSubSection(){
+        String expectedAns = "#Section\n##Subsection\n###Subsubsection\nI'm a paragraph\n";
+        Document doc = section("Section", section("Subsection", section("Subsubsection", paragraph("I'm a paragraph"))));
+        assertEquals(expectedAns, doc.toMarkdownBullets());
+    } 
+
+    // (F1)
+    @Test public void testToMarkdownBulletsSpecialCharParagraph(){
+        String expectedAns = "I\\_have\\\\ \\{special\\} \\(characters\\)\\!";
+        Document doc = paragraph("I_have\\ {special} (characters)!");
+        assertEquals(expectedAns, doc.toMarkdownBullets());
+    } 
+    
+    
+    // (F2)
+    @Test public void testToMarkdownBulletsSpecialCharSection(){
+        String expectedAns = "#\\[Sec\\+ion\\]\n##Sub\\_secti\\*n\n\\#Paragraph\n";
+        Document doc = section("[Sec+ion]", section("Sub_secti*n", paragraph("#Paragraph")));
+        assertEquals(expectedAns, doc.toMarkdownBullets());
+    } 
+
+    // (F3)
+    @Test public void testToMarkdownBulletsSpecialCharAppendedDocs(){
+        String expectedAns = "#1\\. Section\n##2\\. Sub\\_section\n2\\.1 \\#Par\\*\\*\\*graph \\*f symbols\\!\n#1\\. Section\n##2\\. Sub\\_section\n2\\.1 \\#Par\\*\\*\\*graph \\*f symbols\\!\n";
+        Document sections = section("1. Section", section("2. Sub_section", paragraph("2.1 #Par***graph *f symbols!")));
+        Document doc = append(sections, sections);
+        assertEquals(expectedAns, doc.toMarkdownBullets());
+    } 
     
 }
 

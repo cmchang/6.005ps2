@@ -66,7 +66,7 @@ public class SectionDoc implements Document {
         return output;
     }
     
-    private String getNestedSections(String ID, int indent){
+    public String getNestedSections(String ID, int indent){
         String tab = "    ";
         String endLine = "\n";
         String output = "";
@@ -274,6 +274,44 @@ public class SectionDoc implements Document {
             }
         }
         
+        return output;
+    }
+
+    @Override
+    public String toMarkdownBullets() {
+        String endLine = "\n";
+        String bullet = "+    ";
+        String output = "" + bullet;
+        for(String id: body){
+            if(id.charAt(0) == 'P'){
+                output += Helper.markdownCharEscape(content.get(id)) + endLine;                
+            }else{
+                output += Helper.markdownCharEscape(content.get(id)) + endLine; 
+            }
+            
+            if(id.charAt(0) == 'S'){  //if a section, get the nested sections
+                    output +=  getNestedMarkdownBulletSections(id, 2);
+            }
+        }
+        return output;
+    }
+
+    @Override
+    public String getNestedMarkdownBulletSections(String id, int tabs) {
+        String endLine = "\n";
+        String tab = "    ";
+        String bullet = "+    ";
+        String output = "";
+        
+        for(String nestedID: structure.get(id)){
+            if(nestedID.charAt(0)=='S'){
+                for(int x = 0; x< tabs; x++) output+= tab; //adds right number of hashtags for indentation
+            }
+            output += Helper.markdownCharEscape(content.get(nestedID)) + endLine;
+            if(nestedID.charAt(0) == 'S'){  //if a section, get the nested sections
+                output += bullet + getNestedMarkdownBulletSections(nestedID, tabs+1);
+            }
+        }
         return output;
     }
 }

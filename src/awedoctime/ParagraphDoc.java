@@ -56,6 +56,11 @@ public class ParagraphDoc implements Document{
     @Override public String toString(){
         return "" + content.get(body.get(0));
     }
+
+    @Override
+    public String getNestedSections(String ID, int indent) {
+        return "";
+    }
     
     @Override
     public int hashCode() {
@@ -117,6 +122,17 @@ public class ParagraphDoc implements Document{
 
     @Override
     public String getNestedMarkDownSections(String id, int hashtags) {
+        return "";
+    }
+
+
+    @Override
+    public String toMarkdownBullets() {
+        return "+    " + Helper.markdownCharEscape(content.get(body.get(0)));
+    }
+
+    @Override
+    public String getNestedMarkdownBulletSections(String id, int tabs) {
         return "";
     }
 
