@@ -19,7 +19,7 @@ import awedoctime.Document.ConversionException;
  * The variants (constructors) for a document are: Empty, Paragraph, Section, and Appended
  * 
  * Recursive Data Type Definition:
- *      Document = Empty + Paragraph(String) + Section (String, Document) + AppendedDocs(Document, Document)
+ *      Document = Empty() + Paragraph(String paragraphContent) + Section (String header, Document doc) + AppendedDocs(Document doc1, Document doc2)
  * 
  * --------------------------------------------------------------------------
  * 
@@ -458,7 +458,7 @@ public class DocumentTest {
     //Paragraph Document (B)
     @Test public void testTableOfContentsParagraphDoc(){
         String expectedAnswer = "";
-        assertEquals(expectedAnswer, paragraph("I'm a paragrph").tableOfContents().toString());
+        assertEquals(expectedAnswer, paragraph("I'm a paragraph").tableOfContents().toString());
     }    
     
     // (C1)

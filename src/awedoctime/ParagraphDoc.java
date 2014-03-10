@@ -58,11 +58,6 @@ public class ParagraphDoc implements Document{
     }
 
     @Override
-    public String getNestedSections(String ID, int indent) {
-        return "";
-    }
-    
-    @Override
     public int hashCode() {
         return this.toString().hashCode();
     }
@@ -100,41 +95,19 @@ public class ParagraphDoc implements Document{
     }
 
     @Override
-    public Document nestedHeaders(String id, ArrayList<Integer> nested) {
-        return new EmptyDoc();
-    }
-    
-    @Override
     public String toLaTeX() throws ConversionException {
         String laTex = "\\documentclass{article}\\begin{document}\\paragraph{" + Helper.specialLatexCharacters(content.get(body.get(0))) + "}\\end{document}";
         return laTex;
     }
 
     @Override
-    public String nestedLatexSections(String nestedID, int nested){
-        return "";
-    }
-    
-    @Override
     public String toMarkdown() throws ConversionException {
         return Helper.markdownCharEscape(content.get(body.get(0)));
     }
 
     @Override
-    public String getNestedMarkDownSections(String id, int hashtags) {
-        return "";
-    }
-
-
-    @Override
     public String toMarkdownBullets() {
         return "+    " + Helper.markdownCharEscape(content.get(body.get(0)));
     }
-
-    @Override
-    public String getNestedMarkdownBulletSections(String id, int tabs) {
-        return "";
-    }
-
 
 }

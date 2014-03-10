@@ -55,7 +55,6 @@ public interface Document {
      * @return table of contents
      */
     public Document tableOfContents();
-    public Document nestedHeaders(String id, ArrayList<Integer> nested);
     /**
      * Returns a LaTeX representation of the document that:
      * <br> - contains a preamble with document class "article" and no other
@@ -67,7 +66,6 @@ public interface Document {
      * @throws ConversionException if the document cannot be converted
      */
     public String toLaTeX() throws ConversionException;
-    public String nestedLatexSections(String nestedID, int nested);
     
     /**
      * Returns a Markdown representation of the document that:
@@ -78,13 +76,11 @@ public interface Document {
      * @throws ConversionException if the document cannot be converted
      */
     public String toMarkdown() throws ConversionException;
-    public String getNestedMarkDownSections(String id, int hashtags);
     
     /**
      * Returns a concise String representation of the document.
      */
     @Override public String toString();
-    public String getNestedSections(String ID, int indent);
     
     /**
      * Indicates that a document conversion could not be completed.
@@ -130,5 +126,4 @@ public interface Document {
     public ArrayList<String> getBodyArray();
     
     public String toMarkdownBullets();
-    public String getNestedMarkdownBulletSections(String id, int tabs);
 }

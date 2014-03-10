@@ -45,8 +45,7 @@ public class EmptyDoc implements Document{
         return "";
     }
 
-    @Override
-    public String getNestedSections(String ID, int indent) {
+    private String getNestedSections(String ID, int indent) {
         return "";
     }
     
@@ -82,18 +81,9 @@ public class EmptyDoc implements Document{
     }
 
     @Override
-    public Document nestedHeaders(String id, ArrayList<Integer> nested) {
-        return new EmptyDoc();
-    }
-
-    @Override
     public String toLaTeX() throws ConversionException {
         String laTex = "\\documentclass{article}\\begin{document}\\end{document}";
         return laTex;
-    }
-    @Override
-    public String nestedLatexSections(String nestedID, int nested){
-        return "";
     }
 
     @Override
@@ -101,8 +91,7 @@ public class EmptyDoc implements Document{
         return "";
     }
 
-    @Override
-    public String getNestedMarkDownSections(String id, int hashtags) {
+    private String getNestedMarkDownSections(String id, int hashtags) {
         return "";
     }
 
@@ -112,8 +101,7 @@ public class EmptyDoc implements Document{
         return "";
     }
 
-    @Override
-    public String getNestedMarkdownBulletSections(String id, int tabs) {
+    private String getNestedMarkdownBulletSections(String id, int tabs) {
         return "";
     }
 

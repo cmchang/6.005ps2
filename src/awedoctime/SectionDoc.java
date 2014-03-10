@@ -148,7 +148,7 @@ public class SectionDoc implements Document {
         return output;
     }
     
-    public Document nestedHeaders(String id, ArrayList<Integer> nested){
+    private Document nestedHeaders(String id, ArrayList<Integer> nested){
         Document output = new EmptyDoc();
         int sectionNum = 1;
         for(String ID: structure.get(id)){
@@ -196,8 +196,7 @@ public class SectionDoc implements Document {
         return laTex;
     }
 
-    @Override
-    public String nestedLatexSections(String nestedID, int nested){
+    private String nestedLatexSections(String nestedID, int nested){
         String laTex = "";
         String latexSubsection = "";
         
@@ -251,8 +250,7 @@ public class SectionDoc implements Document {
         return output;
     }
 
-    @Override
-    public String getNestedMarkDownSections(String id, int hashtags) {
+    private String getNestedMarkDownSections(String id, int hashtags) {
         String endLine = "\n";
         String output = "";
         for(String nestedID: structure.get(id)){
@@ -270,10 +268,8 @@ public class SectionDoc implements Document {
                 }else{
                     output +=  nestedStr;
                 }
-                    
             }
         }
-        
         return output;
     }
 
@@ -291,8 +287,7 @@ public class SectionDoc implements Document {
         return output;
     }
 
-    @Override
-    public String getNestedMarkdownBulletSections(String id, int tabs) {
+    private String getNestedMarkdownBulletSections(String id, int tabs) {
         String endLine = "\n";
         String tab = "    ";
         String bullet = "+    ";
