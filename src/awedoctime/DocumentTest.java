@@ -438,4 +438,14 @@ public class DocumentTest {
     }
     
     
+    @Test public void RANDOM() {
+        Document paragraphs = append(empty(),paragraph("Hello, world!").append(paragraph("Goodbye.")));
+        Document s1 = section("Section One", paragraphs);
+        Document s2 = section("Section two", paragraphs);
+        Document Title = section("Title", section("HighSection",append(s1, s2)));
+        Document doc = append(Title, section("Second High Section", (append(s1,s2))));
+        System.out.println(doc.tableOfContents());
+        
+    }
+    
 }

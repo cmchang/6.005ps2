@@ -92,6 +92,11 @@ public class ParagraphDoc implements Document{
     }
 
     @Override
+    public Document nestedHeaders(String id, ArrayList<Integer> nested) {
+        return new EmptyDoc();
+    }
+    
+    @Override
     public String toLaTeX() throws ConversionException {
         // TODO Auto-generated method stub
         return null;

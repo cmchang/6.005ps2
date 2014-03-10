@@ -121,13 +121,69 @@ public class SectionDoc implements Document {
         }        return count;
     }
      
+//    @Override public String toString(){
+//        String endLine = "\n";
+//        String output = "";
+//        for(String id: body){
+//            output += content.get(id) + endLine;
+//            output += (id.charAt(0) == 'S') ? getNestedSections(id, 1): "" ; //if a section, get the nested sections
+//        }
+//        
+//        return output;
+//    }
+//    
+//    private String getNestedSections(String ID, int indent){
+//        String tab = "    ";
+//        String endLine = "\n";
+//        String output = "";
+//        for(String id: structure.get(ID)){
+//            for(int x = 0; x< indent; x++) output+= tab; //adds right number of tabs for indentation
+//            output += content.get(id) + endLine;
+//            output += (id.charAt(0) == 'S')? getNestedSections(id, indent+1): ""; //if a section, get the nested sections
+//        }
+//        
+//        return output;
+//    }
+    
     @Override
     public Document tableOfContents() {
-        Document output;
-        
-        return null;
+        Document output = new EmptyDoc();
+        int sectionNum = 1;
+        for(String id:body){
+            String header = "";
+            Document newSection = new EmptyDoc();
+            if(id.charAt(0) == 'S'){
+                header+= sectionNum + ". " + content.get(id);
+                ArrayList<Integer> arraySectionNum = new ArrayList<Integer>();
+                arraySectionNum.add(sectionNum);
+                newSection = new SectionDoc(header, nestedHeaders(id, arraySectionNum));
+                sectionNum++;
+            }
+            output = new AppendDocs(output, newSection);
+        }
+        return output;
     }
+    
+    public Document nestedHeaders(String id, ArrayList<Integer> nested){
+        Document output = new EmptyDoc();
+        int sectionNum = 1;
+        for(String ID: structure.get(id)){
+            String header = "";
+            Document newSection = new EmptyDoc();
+            if(ID.charAt(0) == 'S'){
+                for(int num: nested) header+= num + ".";
+                header+= sectionNum + ". " + content.get(ID);
+                sectionNum++;
+                ArrayList<Integer> newNested = new ArrayList<Integer>(nested);
+                newNested.add(sectionNum);
+                newSection = new SectionDoc(header, nestedHeaders(ID, newNested));
+            }
+            output = new AppendDocs(output, newSection);
 
+        }
+        return output;
+    }
+    
     @Override
     public String toLaTeX() throws ConversionException {
         // TODO Auto-generated method stub

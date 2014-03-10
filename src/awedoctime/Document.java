@@ -55,7 +55,7 @@ public interface Document {
      * @return table of contents
      */
     public Document tableOfContents();
-    
+    public Document nestedHeaders(String id, ArrayList<Integer> nested);
     /**
      * Returns a LaTeX representation of the document that:
      * <br> - contains a preamble with document class "article" and no other
