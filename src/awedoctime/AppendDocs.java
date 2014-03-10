@@ -19,6 +19,10 @@ public class AppendDocs implements Document {
         content = doc1.getContentMap();
         structure = doc1.getStructureMap(); 
         body = doc1.getBodyArray();
+
+        System.out.println(body);
+        System.out.println(structure);
+        System.out.println(content);
         
         //combine document information
         content.putAll(doc2.getContentMap());
@@ -26,20 +30,31 @@ public class AppendDocs implements Document {
         if(body.size() >= 1){
             String lastBodyContent = body.get(body.size()-1);
             if(lastBodyContent.charAt(0) == 'S'){ //last element in doc1's body is a Section
-                
                 for(String bodyContent: doc2.getBodyArray()){
+                    System.out.println("bodyContent: " + bodyContent);
                     if(bodyContent.charAt(0) == 'S'){
                         body.add(bodyContent);
-                    }else{ //find the last section
+                    }else{ //it's a paragraph, so find the last section to insert it in
                         String lastID = lastBodyContent;
-                        ArrayList<String> currentList = structure.get(lastBodyContent);
+                        ArrayList<String> currentList = structure.get(lastID);
+                        System.out.println("lastID: "+lastID);
+                        System.out.println(currentList);
                         while(lastID.charAt(0) == 'S'){
                             if (currentList.isEmpty()) {
-                                structure.get(lastBodyContent).add(lastID); //
+                                structure.get(lastID).add(bodyContent); //
                               }else{
-                                  lastID = currentList.get(currentList.size()-1);
-                                  currentList = structure.get(lastID);
+                                  if(currentList.get(currentList.size()-1).charAt(0) == 'P'){
+                                      structure.get(lastID).add(bodyContent);
+                                      lastID = currentList.get(currentList.size()-1);
+                                  }else{
+                                      lastID = currentList.get(currentList.size()-1);
+                                      currentList = structure.get(lastID);
+                                  }
                               }
+//                            else {
+//                                  lastID = currentList.get(currentList.size()-1);
+//                                  currentList = structure.get(lastID);
+//                              }
                         }
                     }
                 }

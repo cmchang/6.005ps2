@@ -147,9 +147,10 @@ public class DocumentTest {
         Document p2 = paragraph("Paragraph 2");
         Document twoPs = append(p1, p2);
         Document s1 = section("Section 1", section("Section2", section("Section3",twoPs)));
-        Document finalDoc = append(p1, s1);
+        Document finalDoc = append(s1, p1);
         
         String output = new String(finalDoc.toString());
+        System.out.println(output);
         String expectedAnswer = "Paragraph 1\nSection 1\n    Section2\n        Section3\n            Paragraph 1\n            Paragraph 2\n";
         assertEquals(expectedAnswer,output);
     }
@@ -860,6 +861,13 @@ public class DocumentTest {
 //        }
 //    } 
     
+    @Test public void BAH(){
+        Document doc = append(section("Sec",section("Sec",section("Sec", paragraph("that")))), paragraph("this"));
+        System.out.println("------");
+        System.out.println(doc);
+        
+        
+    }
     
 }
 
@@ -876,12 +884,3 @@ public class DocumentTest {
 //        assertEquals(expectedAns, doc.toLaTeX());
 //    } 
     
-//    @Test public void BAH(){
-//        Document doc = section("hi", section("hi", section("hi", section("hi", section("hi", section("hi", section("plah", paragraph("meh"))))))));
-//        try {
-//            System.out.println(doc.toMarkdown());
-//        } catch (ConversionException e) {
-//            e.printStackTrace();
-//            fail();
-//        }
-//    }
