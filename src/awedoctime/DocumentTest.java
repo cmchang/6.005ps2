@@ -713,8 +713,7 @@ public class DocumentTest {
     
     // (B)
     @Test public void testToMarkdownParagraphDoc() throws ConversionException{
-        String expectedAns = "\documentclass{article}\begin{document}\paragraph{I'm a paragraph}\end{document}";
-        //TODO
+        String expectedAns = "I'm a paragraph";
         try {
             assertEquals(expectedAns, paragraph("I'm a paragraph").toMarkdown());
 
@@ -726,8 +725,7 @@ public class DocumentTest {
     
     // (C1) (E1)
     @Test public void testToMarkdownSectionOfEmpty() throws ConversionException{
-        String expectedAns = "";
-        //TODO
+        String expectedAns = "#I'm a section\n";
         Document doc = section("I'm a section", empty());
         try {
             assertEquals(expectedAns, doc.toMarkdown());
@@ -738,8 +736,7 @@ public class DocumentTest {
     }    
     // (C2) (E1)
     @Test public void testToMarkdownSectionSectionOfParagraph() throws ConversionException{
-        String expectedAns = "";
-        //TODO
+        String expectedAns = "#I'm a section\nI'm a paragraph\n";
         Document doc = section("I'm a section", paragraph("I'm a paragraph"));
         try {
             assertEquals(expectedAns, doc.toMarkdown());
@@ -752,8 +749,7 @@ public class DocumentTest {
     
     // (C3) (E2)
     @Test public void testToMarkdownSectionSectionOfSection() throws ConversionException{
-        String expectedAns = "";
-        //TODO
+        String expectedAns = "#I'm a section\n##I'm a subsection\nI'm a paragraph\n";
         Document doc = section("I'm a section", section("I'm a subsection", paragraph("I'm a paragraph")));
         try {
             assertEquals(expectedAns, doc.toMarkdown());
@@ -766,8 +762,7 @@ public class DocumentTest {
     
     // (C4) (E1)
     @Test public void testToMarkdownSectionOfAppendedDoc() throws ConversionException{
-        String expectedAns = "";
-        //TODO
+        String expectedAns = "#I'm a section\nI'm a paragraph\nI'm a paragraph\n";
         Document doc = section("I'm a section", append(paragraph("I'm a paragraph"), paragraph("I'm a paragraph")));
         try {
             assertEquals(expectedAns, doc.toMarkdown());
@@ -779,8 +774,7 @@ public class DocumentTest {
     
     // (D1) and (D2)
     @Test public void testToMarkdownAppendEmptyAndParagraph() throws ConversionException{
-        String expectedAns = "";
-        //TODO
+        String expectedAns = "I'm a paragraph\n";
         Document doc = append(empty(), paragraph("I'm a paragraph")); 
         try {
             assertEquals(expectedAns, doc.toMarkdown());
@@ -791,8 +785,7 @@ public class DocumentTest {
     } 
     // (D1), (D2), (D3) and (D4)
     @Test public void testToMarkdownAppendSectionAndAppendedDoc() throws ConversionException{
-        String expectedAns = "";
-        //TODO
+        String expectedAns = "#Title\nI'm a pragraph\n#I'm a section\n##I'm a subsection\n";
         Document doc = append(section("Title", paragraph("I'm a pragraph")), append(paragraph("I'm also a paragraph"), section("I'm a section", section("I'm a subsection", empty()))));
         try {
             assertEquals(expectedAns, doc.toMarkdown());
@@ -804,8 +797,7 @@ public class DocumentTest {
 
     // (E3)
     @Test public void testToMarkdownSubSubSection() throws ConversionException{
-        String expectedAns = "";
-        //TODO
+        String expectedAns = "#Section\n##Subsection\n###Subsubsection\nI'm a paragraph\n";
         Document doc = section("Section", section("Subsection", section("Subsubsection", paragraph("I'm a paragraph"))));
         try {
             assertEquals(expectedAns, doc.toMarkdown());
@@ -818,9 +810,8 @@ public class DocumentTest {
     // (E4)
     @Test public void testToMarkdownTooManySubsections() throws ConversionException{
         String expectedAns = "";
-        //TODO
-        Document doc = section("Section", section("Subsection", section("Subsubsection", section("I would be a subsubsubsection", paragraph("I'm a paragraph")))));
-
+        Document doc = section("Section", section("Subsection", section("Subsubsection", section("Subsubsubsection", section("Subsubsubsubsection", section("Subsubsubsubsubsection", section("Subsubsubsubsubsubsection", paragraph("I'm a paragraph"))))))));
+        System.out.println(doc.toMarkdown());
         try {
             doc.toMarkdown();
             fail();
