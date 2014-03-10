@@ -150,7 +150,7 @@ public class DocumentTest {
         Document finalDoc = append(p1, s1);
         
         String output = new String(finalDoc.toString());
-        String expectedAnswer = "Paragraph 1\nSection 1\n    Section2\n        Section3\n            Paragraph 1\n            Paragraph 2";
+        String expectedAnswer = "Paragraph 1\nSection 1\n    Section2\n        Section3\n            Paragraph 1\n            Paragraph 2\n";
         assertEquals(expectedAnswer,output);
     }
     
