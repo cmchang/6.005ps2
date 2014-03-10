@@ -121,30 +121,6 @@ public class SectionDoc implements Document {
         }        return count;
     }
      
-//    @Override public String toString(){
-//        String endLine = "\n";
-//        String output = "";
-//        for(String id: body){
-//            output += content.get(id) + endLine;
-//            output += (id.charAt(0) == 'S') ? getNestedSections(id, 1): "" ; //if a section, get the nested sections
-//        }
-//        
-//        return output;
-//    }
-//    
-//    private String getNestedSections(String ID, int indent){
-//        String tab = "    ";
-//        String endLine = "\n";
-//        String output = "";
-//        for(String id: structure.get(ID)){
-//            for(int x = 0; x< indent; x++) output+= tab; //adds right number of tabs for indentation
-//            output += content.get(id) + endLine;
-//            output += (id.charAt(0) == 'S')? getNestedSections(id, indent+1): ""; //if a section, get the nested sections
-//        }
-//        
-//        return output;
-//    }
-    
     @Override
     public Document tableOfContents() {
         Document output = new EmptyDoc();
@@ -157,10 +133,7 @@ public class SectionDoc implements Document {
                 
                 //get number of paragraphs
                 int paragraphCount = 0;
-                System.out.println(structure.get(id));
                 for(String nestedID: structure.get(id)){
-                    System.out.println(nestedID);
-                    System.out.println(nestedID.charAt(0) == 'P');
                     paragraphCount += nestedID.charAt(0) == 'P'? 1: 0;
                 }
                 header+= " (" + paragraphCount + " paragraphs)";
@@ -187,7 +160,7 @@ public class SectionDoc implements Document {
                 
               //get number of paragraphs
                 int paragraphCount = 0;
-                for(String nestedID: structure.get(id)){
+                for(String nestedID: structure.get(ID)){
                     paragraphCount += nestedID.charAt(0) == 'P'? 1: 0;
                 }
                 header+= " (" + paragraphCount + " paragraphs)";
@@ -198,7 +171,6 @@ public class SectionDoc implements Document {
                 sectionNum++;
             }
             output = new AppendDocs(output, newSection);
-
         }
         return output;
     }

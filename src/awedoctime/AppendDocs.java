@@ -190,7 +190,6 @@ public class AppendDocs implements Document {
                 sectionNum++;
             }
             output = new AppendDocs(output, newSection);
-
         }
         return output;
     }
