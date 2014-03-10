@@ -24,4 +24,63 @@ public class Helper {
         
         return ListOfWords;
     }
+    
+    /**
+     * This helper method returns a string of text in a form that is compatible with LaTex,
+     * 
+     * @param text
+     * @return
+     */
+    public static String specialLatexCharacters(String text){
+        String specialCharacters = "#$%&~_^{}"; // not testing for backslashes yet
+        char[] textChar = text.toCharArray();
+
+        //find all the locations of the special characters IN ORDER
+        ArrayList<Integer> specialCharLoc = new ArrayList<Integer>();
+        for(int i = 0; i< textChar.length; i++){
+            String currentChar = Character.toString(textChar[i]);
+            if(specialCharacters.contains(currentChar)){
+             specialCharLoc.add(i);   
+            }
+        }
+        if(specialCharLoc.size() == 0){ //no special character found
+            return text;
+        }
+        System.out.println(specialCharLoc);
+        
+        //replace special characters with LaTex compatible syntax
+        String output = "";
+        if(specialCharLoc.size() >= 0){
+            output += text.substring(0, specialCharLoc.get(0));
+            output += insertLatexSyntax(text.charAt(specialCharLoc.get(0)));
+            System.out.println(output);
+        }
+        for(int i = 1; i < specialCharLoc.size(); i++){
+            output += text.substring(specialCharLoc.get(i-1)+1, specialCharLoc.get(i));
+            output += insertLatexSyntax(text.charAt(specialCharLoc.get(i)));
+            System.out.println(output);
+        }
+        
+        String lastSection = text.substring(specialCharLoc.get(specialCharLoc.size()-1));
+        if(lastSection.length() > 1 && !specialCharacters.contains(lastSection)){
+            output+= text.substring(specialCharLoc.get(specialCharLoc.size()-1));
+        }
+        System.out.println(output);
+        return output;
+    }
+    
+    public static String insertLatexSyntax(char symbol){
+        String symbolStr = Character.toString(symbol);
+        String simpleSymbols = "#$%&_{}"; //not ~^
+        String output = new String();
+        
+        if(simpleSymbols.contains(symbolStr)){
+            output = "\\" + symbolStr;
+        }else if(symbol == '~'){
+            output = "\\~{}";
+        }else if(symbol == '^'){
+            output = "\\^{}";
+        }
+        return output;
+    }
 }

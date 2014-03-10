@@ -604,5 +604,7 @@ public class DocumentTest {
 //        System.out.println(doc.toLaTeX());
 //        assertEquals(expectedAns, doc.toLaTeX());
 //    } 
-    
+    @Test public void rand(){
+        Helper.specialLatexCharacters("hello$jk$lj$");
+    }
 }
