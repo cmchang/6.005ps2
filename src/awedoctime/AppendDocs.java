@@ -259,14 +259,50 @@ public class AppendDocs implements Document {
     
     @Override
     public String toMarkdown() throws ConversionException {
-        // TODO Auto-generated method stub
-        return null;
+        String endLine = "\n";
+        String output = "";
+        for(String id: body){
+            if(id.charAt(0) == 'P'){
+                output += content.get(id) + endLine;                
+            }else{
+                output += "#" + content.get(id) + endLine; 
+            }
+            
+            if(id.charAt(0) == 'S'){  //if a section, get the nested sections
+                String nestedStr = getNestedMarkDownSections(id, 2);
+                if(nestedStr.equals("throw exception")){
+                    throw new ConversionException("Too many nested sections for LaTex Syntax");
+                }else{
+                    output +=  nestedStr;
+                }
+            }
+        }
+        return output;
     }
 
     @Override
     public String getNestedMarkDownSections(String id, int hashtags) {
-        // TODO Auto-generated method stub
-        return null;
+        String endLine = "\n";
+        String output = "";
+        for(String nestedID: structure.get(id)){
+            if(nestedID.charAt(0)=='S'){
+                if(hashtags > 6){
+                    return "throw exception";
+                }
+                for(int x = 0; x< hashtags; x++) output+= "#"; //adds right number of hashtags for indentation
+            }
+            output += content.get(nestedID) + endLine;
+            if(nestedID.charAt(0) == 'S'){  //if a section, get the nested sections
+                String nestedStr = getNestedMarkDownSections(nestedID, hashtags+1);
+                if(nestedStr.equals("throw exception")){
+                    return "throw exception";
+                }else{
+                    output +=  nestedStr;
+                }
+                    
+            }
+        }
+        
+        return output;
     }
-
 }

@@ -633,7 +633,7 @@ public class DocumentTest {
     } 
 
     // (E4)
-    @Test public void testToLatex() throws ConversionException{
+    @Test public void testToLatexTooManySubsections() throws ConversionException{
         String expectedAns = "";
         Document doc = section("Section", section("Subsection", section("Subsubsection", section("I would be a subsubsubsection", paragraph("I'm a paragraph")))));
 
@@ -682,6 +682,194 @@ public class DocumentTest {
             fail();
         }
     } 
+    
+    /**
+     * Tests for markdown method for a document containing a/an...
+     * (A) Empty Document
+     * (B) Paragraph Document
+     * (C) Section Document with a/an...
+     *      (C1) Empty Document (C2) Paragraph Document (C3) Section Document (C4) Appended Document
+     * (D) Appended Document with a/an...
+     *      (D1) Empty Document (D2) Paragraph Document (D3) Section Document (D4) Appended Document
+     * (E) Sections: contains a...
+     *      (E1) section (E2) subsection (E3) subsubsection (E4) too many subsections for Latex
+     * (F) Special characters in
+     *      (F1) Paragraph Document (F2) Section Document (F3) Appended Document
+     *      (F4) consecutive Symbols
+     * @throws ConversionException for case (E4)
+     */
+    
+    // (A)
+    @Test public void testToMarkdownEmptyDoc() throws ConversionException{
+        String expectedAns = "";
+        try {
+            assertEquals(expectedAns, empty().toMarkdown());
+
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }
+    
+    // (B)
+    @Test public void testToMarkdownParagraphDoc() throws ConversionException{
+        String expectedAns = "\documentclass{article}\begin{document}\paragraph{I'm a paragraph}\end{document}";
+        //TODO
+        try {
+            assertEquals(expectedAns, paragraph("I'm a paragraph").toMarkdown());
+
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }    
+    
+    // (C1) (E1)
+    @Test public void testToMarkdownSectionOfEmpty() throws ConversionException{
+        String expectedAns = "";
+        //TODO
+        Document doc = section("I'm a section", empty());
+        try {
+            assertEquals(expectedAns, doc.toMarkdown());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    }    
+    // (C2) (E1)
+    @Test public void testToMarkdownSectionSectionOfParagraph() throws ConversionException{
+        String expectedAns = "";
+        //TODO
+        Document doc = section("I'm a section", paragraph("I'm a paragraph"));
+        try {
+            assertEquals(expectedAns, doc.toMarkdown());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    } 
+
+    
+    // (C3) (E2)
+    @Test public void testToMarkdownSectionSectionOfSection() throws ConversionException{
+        String expectedAns = "";
+        //TODO
+        Document doc = section("I'm a section", section("I'm a subsection", paragraph("I'm a paragraph")));
+        try {
+            assertEquals(expectedAns, doc.toMarkdown());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    } 
+    
+    
+    // (C4) (E1)
+    @Test public void testToMarkdownSectionOfAppendedDoc() throws ConversionException{
+        String expectedAns = "";
+        //TODO
+        Document doc = section("I'm a section", append(paragraph("I'm a paragraph"), paragraph("I'm a paragraph")));
+        try {
+            assertEquals(expectedAns, doc.toMarkdown());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    } 
+    
+    // (D1) and (D2)
+    @Test public void testToMarkdownAppendEmptyAndParagraph() throws ConversionException{
+        String expectedAns = "";
+        //TODO
+        Document doc = append(empty(), paragraph("I'm a paragraph")); 
+        try {
+            assertEquals(expectedAns, doc.toMarkdown());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    } 
+    // (D1), (D2), (D3) and (D4)
+    @Test public void testToMarkdownAppendSectionAndAppendedDoc() throws ConversionException{
+        String expectedAns = "";
+        //TODO
+        Document doc = append(section("Title", paragraph("I'm a pragraph")), append(paragraph("I'm also a paragraph"), section("I'm a section", section("I'm a subsection", empty()))));
+        try {
+            assertEquals(expectedAns, doc.toMarkdown());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    } 
+
+    // (E3)
+    @Test public void testToMarkdownSubSubSection() throws ConversionException{
+        String expectedAns = "";
+        //TODO
+        Document doc = section("Section", section("Subsection", section("Subsubsection", paragraph("I'm a paragraph"))));
+        try {
+            assertEquals(expectedAns, doc.toMarkdown());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    } 
+
+    // (E4)
+    @Test public void testToMarkdownTooManySubsections() throws ConversionException{
+        String expectedAns = "";
+        //TODO
+        Document doc = section("Section", section("Subsection", section("Subsubsection", section("I would be a subsubsubsection", paragraph("I'm a paragraph")))));
+
+        try {
+            doc.toMarkdown();
+            fail();
+        }
+        catch (Exception e) {
+            assertTrue(true);
+        }
+    } 
+
+    // (F1)
+    @Test public void testToMarkdownSpecialCharParagraph() throws ConversionException{
+        String expectedAns = "";
+        //TODO
+        Document doc = paragraph("#I_have\\ {special}&&%^ characters!^");
+        try {
+            assertEquals(expectedAns, doc.toMarkdown());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    } 
+    
+    // (F2)
+    @Test public void testToMarkdownSpecialCharSection() throws ConversionException{
+        String expectedAns = "";
+        //TODO
+        Document doc = section("Section$$", section("Sub_section^", paragraph("#Paragraph")));
+        try {
+            assertEquals(expectedAns, doc.toMarkdown());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    } 
+
+    // (F3)
+    @Test public void testToMarkdownSpecialCharAppendedDocs() throws ConversionException{
+        String expectedAns = "";
+        //TODO
+        Document sections = section("Section$$", section("Sub_section^", paragraph("#Paragraph %f $&mbol$")));
+        Document doc = append(sections, sections);
+        try {
+            assertEquals(expectedAns, doc.toMarkdown());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    } 
+    
     
 }
 
