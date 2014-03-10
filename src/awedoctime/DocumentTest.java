@@ -818,17 +818,17 @@ public class DocumentTest {
     } 
 
     // (F1)
-//    @Test public void testToMarkdownSpecialCharParagraph() throws ConversionException{
-//        String expectedAns = "";
-//        //TODO
-//        Document doc = paragraph("#I_have\\ {special}&&%^ characters!^");
-//        try {
-//            assertEquals(expectedAns, doc.toMarkdown());
-//        } catch (ConversionException e) {
-//            e.printStackTrace();
-//            fail();
-//        }
-//    } 
+    @Test public void testToMarkdownSpecialCharParagraph() throws ConversionException{
+        String expectedAns = "I have \\{special\\} characters\\!";
+        Document doc = paragraph("I have {special} characters!");
+        System.out.println(doc.toMarkdown());
+        try {
+            assertEquals(expectedAns, doc.toMarkdown());
+        } catch (ConversionException e) {
+            e.printStackTrace();
+            fail();
+        }
+    } 
     
     // (F2)
 //    @Test public void testToMarkdownSpecialCharSection() throws ConversionException{

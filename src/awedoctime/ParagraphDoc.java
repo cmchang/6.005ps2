@@ -112,7 +112,7 @@ public class ParagraphDoc implements Document{
     
     @Override
     public String toMarkdown() throws ConversionException {
-        return content.get(body.get(0));
+        return Helper.markdownCharEscape(content.get(body.get(0)));
     }
 
     @Override

@@ -31,7 +31,7 @@ public class Helper {
      * @return
      */
     public static String specialLatexCharacters(String text){
-        String specialCharacters = "#$%&~_^{}\\"; // not testing for backslashes yet
+        String specialCharacters = "#$%&~_^{}\\";
         char[] textChar = text.toCharArray();
 
         //find all the locations of the special characters IN ORDER
@@ -42,29 +42,33 @@ public class Helper {
              specialCharLoc.add(i);   
             }
         }
-        if(specialCharLoc.size() == 0) return text;//no special character
-        
-        //replace special characters with LaTex compatible syntax
-        String output = "";
-        if(specialCharLoc.size() >= 0){
+        if(specialCharLoc.size() == 0){
+            return text;//no special character
+        }else{
+            //replace special characters with LaTex compatible syntax
+            String output = "";
+            
+            //gets first section
             output += text.substring(0, specialCharLoc.get(0));
             output += insertLatexSyntax(text.charAt(specialCharLoc.get(0)));
-        }
-        for(int i = 1; i < specialCharLoc.size(); i++){
-            output += text.substring(specialCharLoc.get(i-1)+1, specialCharLoc.get(i));
-            output += insertLatexSyntax(text.charAt(specialCharLoc.get(i)));
+            //everything in the middle
+            for(int i = 1; i < specialCharLoc.size(); i++){
+                output += text.substring(specialCharLoc.get(i-1)+1, specialCharLoc.get(i));
+                output += insertLatexSyntax(text.charAt(specialCharLoc.get(i)));
+            }
+            //check the last section of the text
+            String lastSection = text.substring(specialCharLoc.get(specialCharLoc.size()-1));
+            if(lastSection.length() > 1 && !specialCharacters.contains(lastSection)){
+                if(specialCharacters.contains(Character.toString(lastSection.charAt(0)))){ 
+                    output+= text.substring(specialCharLoc.get(specialCharLoc.size()-1)+1);
+                }else{
+                    output+= text.substring(specialCharLoc.get(specialCharLoc.size()-1));
+                }
+            }
+            
+            return output;
         }
         
-        //check the last section of the text
-        String lastSection = text.substring(specialCharLoc.get(specialCharLoc.size()-1));
-        if(lastSection.length() > 1 && !specialCharacters.contains(lastSection)){
-            if(specialCharacters.contains(Character.toString(lastSection.charAt(0)))){ 
-                output+= text.substring(specialCharLoc.get(specialCharLoc.size()-1)+1);
-            }else{
-                output+= text.substring(specialCharLoc.get(specialCharLoc.size()-1));
-            }
-        }
-        return output;
     }
     
     public static String insertLatexSyntax(char symbol){
@@ -80,6 +84,61 @@ public class Helper {
             output = "\\^{}";
         }else if(symbol == '\\'){
             output = "\\textbackslash";
+        }
+        return output;
+    }
+    /**
+     * This helper method returns a string of text in a form that is compatible with Markdown,
+     * 
+     * @param text
+     * @return
+     */
+    public static String markdownCharEscape(String text){
+        String specialCharacters = "\\`*_{}[]()#+-.!";
+        char[] textChar = text.toCharArray();
+
+        //find all the locations of the special characters IN ORDER
+        ArrayList<Integer> specialCharLoc = new ArrayList<Integer>();
+        for(int i = 0; i< textChar.length; i++){
+            String currentChar = Character.toString(textChar[i]);
+            if(specialCharacters.contains(currentChar)){
+             specialCharLoc.add(i);   
+            }
+        }
+        if(specialCharLoc.size() == 0){
+            return text;//no special character
+        }else{
+            //replace special characters with LaTex compatible syntax
+            String output = "";
+            
+            //gets first section
+            output += text.substring(0, specialCharLoc.get(0));
+            output += insertMarkdownSyntax(text.charAt(specialCharLoc.get(0)));
+            //everything in the middle
+            for(int i = 1; i < specialCharLoc.size(); i++){
+                output += text.substring(specialCharLoc.get(i-1)+1, specialCharLoc.get(i));
+                output += insertMarkdownSyntax(text.charAt(specialCharLoc.get(i)));
+            }
+            //check the last section of the text
+            String lastSection = text.substring(specialCharLoc.get(specialCharLoc.size()-1));
+            if(lastSection.length() > 1 && !specialCharacters.contains(lastSection)){
+                if(specialCharacters.contains(Character.toString(lastSection.charAt(0)))){ 
+                    output+= text.substring(specialCharLoc.get(specialCharLoc.size()-1)+1);
+                }else{
+                    output+= text.substring(specialCharLoc.get(specialCharLoc.size()-1));
+                }
+            }
+            
+            return output;
+        }
+    }
+    public static String insertMarkdownSyntax(char symbol){
+        String symbolStr = Character.toString(symbol);
+        String simpleSymbols = "\\`*_{}[]()#+-.!";
+        String output = new String();
+        
+        if(simpleSymbols.contains(symbolStr)){
+            output = "\\" + symbolStr;
         }
         return output;
     }
