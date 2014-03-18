@@ -35,12 +35,6 @@ public interface Document {
      * @return body word count
      */
     public int bodyWordCount();
-    /**
-     * Helper function for bodyWordCount.  Helps get the word count of nested sections
-     * within other sections. 
-     * @return the word count in a specified section
-     */
-    public int wordCountNested(String id);
     
     /**
      * Returns a document containing one paragraph for every section heading in

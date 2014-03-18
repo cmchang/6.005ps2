@@ -3,6 +3,7 @@ package awedoctime;
 import static awedoctime.AwesomeDocumentTime.*;
 import static org.junit.Assert.*;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import awedoctime.Document.ConversionException;
@@ -11,7 +12,7 @@ import awedoctime.Document.ConversionException;
  * 
  * Document ADT
  * 
- * For this recursive data type, the Paragraph acts as our base cause because it just contains a string.
+ * For this recursive data type, the Paragraph and Empty Document is the base case.
  * The Section makes this data type recursive because it can contain a paragraph, another section, or nothing (empty document).  
  * A document can be empty if it does not contain a section or a paragraph.
  * Appended document returns a document after adding the content of one document to another.
@@ -19,37 +20,57 @@ import awedoctime.Document.ConversionException;
  * The variants (constructors) for a document are: Empty, Paragraph, Section, and Appended
  * 
  * Recursive Data Type Definition:
- *      Document = Empty() + Paragraph(String paragraphContent) + Section (String header, Document doc) + AppendedDocs(Document doc1, Document doc2)
+ *      Document = Empty() + Paragraph(String paragraphContent) + Section (String header, Document doc) 
+ *                          + AppendedDocs(Document doc1, Document doc2)
  * 
  * --------------------------------------------------------------------------
  * 
- * Tests for Document.
+ * The methods I'm testing are in the following order:
+ *      toString
+ *      equals
+ *      hashCode
+ *      bodyWordCount
+ *      tableOfContents
+ *      toLatext
+ *      toMarkdown
+ *      toMarkdownBullets **the new feature for problem 5
  * 
- * You SHOULD create additional test classes to unit-test variants of Document.
- * You MAY strengthen the specs of Document and test those specs.
+ * 
  */
 public class DocumentTest {
     
-    Document emptyA = empty();
-    Document emptyB = empty();
-    Document paragraphA = paragraph("I'm a paragraph!");
-    Document paragraphB = paragraph("I'm a paragraph!");
-    Document paragraphC = paragraph("I'm a different paragraph!");
-    Document sectionA = section("I'm a section!", paragraphA);
-    Document sectionB = section("I'm a section!", paragraphB);
-    Document sectionC = section("I'm a different section!", paragraphA);
-    Document sectionSectionA = section("I'm a section of sections!", sectionA);
-    Document sectionSectionB = section("I'm a section of sections!", sectionB);
-    Document sectionSectionC = section("I'm a different section of sections!", sectionA);
-    Document appendedParagraphsA = append(paragraphA, paragraphB);
-    Document appendedParagraphsB = append(paragraphB, paragraphA);
-    Document appendedParagraphsC = append(paragraphA, paragraphC);
-    Document appendedSectionsAB = append(sectionSectionA, sectionSectionB);
-    Document appendedSectionsBA = append(sectionSectionB, sectionSectionA);
-    Document appendedSectionsC = append(sectionSectionA, sectionSectionC);
+    static Document emptyA, emptyB;
+    static Document paragraphA, paragraphB, paragraphC;
+    static Document sectionA, sectionB, sectionC;
+    static Document sectionSectionA, sectionSectionB, sectionSectionC;
+    static Document appendedParagraphsA, appendedParagraphsB , appendedParagraphsC;
+    static Document appendedSectionsAB, appendedSectionsBA, appendedSectionsC;
 
+    @BeforeClass
+    public static void setUpBeforeClass() {
+        emptyA = empty();
+        emptyB = empty();
+        paragraphA = paragraph("I'm a paragraph!");
+        paragraphB = paragraph("I'm a paragraph!");
+        paragraphC = paragraph("I'm a different paragraph!");
+        sectionA = section("I'm a section!", paragraphA);
+        sectionB = section("I'm a section!", paragraphB);
+        sectionC = section("I'm a different section!", paragraphA);
+        sectionSectionA = section("I'm a section of sections!", sectionA);
+        sectionSectionB = section("I'm a section of sections!", sectionB);
+        sectionSectionC = section("I'm a different section of sections!", sectionA);
+        appendedParagraphsA = append(paragraphA, paragraphB);
+        appendedParagraphsB = append(paragraphB, paragraphA);
+        appendedParagraphsC = append(paragraphA, paragraphC);
+        appendedSectionsAB = append(sectionSectionA, sectionSectionB);
+        appendedSectionsBA = append(sectionSectionB, sectionSectionA);
+        appendedSectionsC = append(sectionSectionA, sectionSectionC);
+    }
+    
+    
     /**
      * Tests for toString method
+     * Note: In my toString method, I add extra spaces to visually show the nesting of the sections
      * (A) Creating an Empty Document
      * (B) Creating a Paragraph Document with a/an...
      *      (B1) Empty String (B2) Non-empty string
@@ -299,7 +320,7 @@ public class DocumentTest {
     
     // Paragraph Documents with (B2) different content
     @Test public void testHashCodeParagraphDifferent() {
-        assertTrue(paragraphA.hashCode() != paragraphC.hashCode());
+        assertFalse(paragraphA.hashCode() == paragraphC.hashCode());
     }    
 
     // Section Documents with (C1) same content
@@ -573,7 +594,8 @@ public class DocumentTest {
     
     // (C3) (E2)
     @Test public void testToLatexSectionSectionOfSection() throws ConversionException{
-        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\subsection{I'm a subsection}\\paragraph{I'm a paragraph}\\end{document}";
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\subsection{I'm a subsection}"
+                + "\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("I'm a section", section("I'm a subsection", paragraph("I'm a paragraph")));
         try {
             assertEquals(expectedAns, doc.toLaTeX());
@@ -586,7 +608,8 @@ public class DocumentTest {
     
     // (C4) (E1)
     @Test public void testToLatexSectionOfAppendedDoc() throws ConversionException{
-        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\paragraph{I'm a paragraph}\\paragraph{I'm a paragraph}\\end{document}";
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{I'm a section}\\"
+                + "paragraph{I'm a paragraph}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("I'm a section", append(paragraph("I'm a paragraph"), paragraph("I'm a paragraph")));
         try {
             assertEquals(expectedAns, doc.toLaTeX());
@@ -609,7 +632,8 @@ public class DocumentTest {
     } 
     // (D1), (D2), (D3) and (D4)
     @Test public void testToLatexAppendSectionAndAppendedDoc() throws ConversionException{
-        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Title}\\paragraph{I'm a pragraph}\\paragraph{I'm also a paragraph}\\section{I'm a section}\\subsection{I'm a subsection}\\end{document}";
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Title}\\paragraph{I'm a pragraph}\\"
+                + "paragraph{I'm also a paragraph}\\section{I'm a section}\\subsection{I'm a subsection}\\end{document}";
         Document doc = append(section("Title", paragraph("I'm a pragraph")), append(paragraph("I'm also a paragraph"), section("I'm a section", section("I'm a subsection", empty()))));
         try {
             assertEquals(expectedAns, doc.toLaTeX());
@@ -621,7 +645,8 @@ public class DocumentTest {
 
     // (E3)
     @Test public void testToLatexSubSubSection() throws ConversionException{
-        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Section}\\subsection{Subsection}\\subsubsection{Subsubsection}\\paragraph{I'm a paragraph}\\end{document}";
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Section}\\subsection{Subsection}"
+                + "\\subsubsection{Subsubsection}\\paragraph{I'm a paragraph}\\end{document}";
         Document doc = section("Section", section("Subsection", section("Subsubsection", paragraph("I'm a paragraph"))));
         try {
             assertEquals(expectedAns, doc.toLaTeX());
@@ -670,7 +695,9 @@ public class DocumentTest {
 
     // (F3)
     @Test public void testToLatexSpecialCharAppendedDocs() throws ConversionException{
-        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Section\\$\\$}\\subsection{Sub\\_section\\^{}}\\paragraph{\\#Paragraph \\%f \\$\\&mbol\\$}\\section{Section\\$\\$}\\subsection{Sub\\_section\\^{}}\\paragraph{\\#Paragraph \\%f \\$\\&mbol\\$}\\end{document}";
+        String expectedAns = "\\documentclass{article}\\begin{document}\\section{Section\\$\\$}\\subsection{Sub"
+                + "\\_section\\^{}}\\paragraph{\\#Paragraph \\%f \\$\\&mbol\\$}\\section{Section\\$\\$}\\subsection{Sub\\_section\\^{}}"
+                + "\\paragraph{\\#Paragraph \\%f \\$\\&mbol\\$}\\end{document}";
         Document sections = section("Section$$", section("Sub_section^", paragraph("#Paragraph %f $&mbol$")));
         Document doc = append(sections, sections);
         try {
@@ -690,10 +717,11 @@ public class DocumentTest {
      * (D) Appended Document with a/an...
      *      (D1) Empty Document (D2) Paragraph Document (D3) Section Document (D4) Appended Document
      * (E) Sections: contains a...
-     *      (E1) section (E2) subsection (E3) subsubsection
+     *      (E1) section (E2) subsection (E3) subsubsection (E4) Too many sub sections
      * (F) Special characters in
      *      (F1) Paragraph Document (F2) Section Document (F3) Appended Document
      *      (F4) consecutive Symbols
+     *      
      * @throws ConversionException for case (E4)
      */
     
@@ -845,7 +873,8 @@ public class DocumentTest {
 
     // (F3)
     @Test public void testToMarkdownSpecialCharAppendedDocs() throws ConversionException{
-        String expectedAns = "#1\\. Section\n##2\\. Sub\\_section\n2\\.1 \\#Par\\*\\*\\*graph \\*f symbols\\!\n#1\\. Section\n##2\\. Sub\\_section\n2\\.1 \\#Par\\*\\*\\*graph \\*f symbols\\!\n";
+        String expectedAns = "#1\\. Section\n##2\\. Sub\\_section\n2\\.1 \\#Par\\*\\*\\*graph \\*f symbols\\"
+                + "!\n#1\\. Section\n##2\\. Sub\\_section\n2\\.1 \\#Par\\*\\*\\*graph \\*f symbols\\!\n";
         Document sections = section("1. Section", section("2. Sub_section", paragraph("2.1 #Par***graph *f symbols!")));
         Document doc = append(sections, sections);
 
