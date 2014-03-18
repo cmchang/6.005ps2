@@ -167,7 +167,9 @@ public class AppendDocs implements Document {
         int count = 0;
         for(String id: body){
             if(id.charAt(0) == 'P'){
-                for(String word: Helper.getListOfWords(content.get(id))) count++;
+                for(String word: Helper.getListOfWords(content.get(id))){
+                    if(word.length()> 0)count++;  
+                }
             }else{
                 count += wordCountNested(id);
             }
@@ -184,7 +186,9 @@ public class AppendDocs implements Document {
         int count = 0;
         for (String nestedID: structure.get(id)){
             if(nestedID.charAt(0) == 'P'){
-                for(String word: Helper.getListOfWords(content.get(nestedID))) count++;
+                for(String word: Helper.getListOfWords(content.get(nestedID))){
+                    if(word.length()> 0)count++;  
+                }
             }else{
                 count+= wordCountNested(nestedID);
             }

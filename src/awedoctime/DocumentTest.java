@@ -985,7 +985,6 @@ public class DocumentTest {
         Document doc = append(sections, sections);
         assertEquals(expectedAns, doc.toMarkdownBullets());
     } 
-    
 }
 
     

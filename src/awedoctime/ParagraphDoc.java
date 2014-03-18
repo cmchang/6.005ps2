@@ -103,7 +103,9 @@ public class ParagraphDoc implements Document{
         int count = 0;
         for(String id: content.keySet()){
             if(id.charAt(0) == 'P'){
-                for(String word: Helper.getListOfWords(content.get(id))) count++;
+                for(String word: Helper.getListOfWords(content.get(id))){
+                    if(word.length()> 0)count++;  
+                }
             }
         }
         return count;
